@@ -1,0 +1,1190 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>41일 회복 다이어리</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<!-- 글꼴: 인터넷이 되면 Noto 서체, 안 되면 윈도우 기본 서체(맑은 고딕/바탕)로 표시 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* ───────── 색상 팔레트 (종이 워크북과 동일) ───────── */
+:root{
+  --paper:#FCF9F2; --bg:#F3EEE5; --cream:#F4ECDD; --lav:#ECE7F3; --lav-d:#8D80AE;
+  --gray:#8C857D; --gray-l:#DDD7CE; --brown:#9C7B62; --brown-l:#EADFD2; --ink:#3B3743; --sage:#9AA88F;
+  --title:#5B4336; --band:#F3ECE2; --band-ink:#4A3A31; --band-lav:#DCD3EA; --band-lav-ink:#3F3552; --box:#CFC4B6; --rule:#C9B6A6; --lineq:#E6DFD4;
+  --card:#FFFFFF; --on-accent:#FFFFFF; --focus:#CFC5E4; --rest-bg:#EEF0E8; --rest-fg:#7C8A70; --opt-bg:#F3EEE4;
+  --a1:#CFC5E4; --a2:#E6CDB8; --a3:#C9D3BE; --a4:#F1DFA7; --a5:#C7DCE6; --a6:#EBB9B9; --shadow:rgba(40,30,50,.15);
+  --sans:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
+  --serif:'Noto Serif KR','Batang','AppleMyungjo',serif;
+}
+/* 다크 모드: 같은 이름의 토큰만 다시 정의 */
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#26232B; --bg:#1D1B21; --cream:#352F29; --lav:#302A40; --lav-d:#B6A9DA; --gray:#A59E96; --gray-l:#423D47;
+  --brown:#CCA78A; --brown-l:#3C332B; --ink:#ECE7F0; --sage:#A3B197; --card:#2C2931; --on-accent:#1D1B21; --focus:#5E537A;
+  --title:#E6CFBF; --band:#39322B; --band-ink:#EFE3D6; --band-lav:#3B3352; --band-lav-ink:#E2DAF4; --box:#4E4854; --rule:#6A5A4E; --lineq:#3E3943; --rest-bg:#2D3229; --rest-fg:#A9B79C; --opt-bg:#322D27; --a1:#5D5279; --a2:#6E5644; --a3:#4E5B45; --a4:#6D5F33; --a5:#3F5865; --a6:#6E4545;
+  --shadow:rgba(0,0,0,.5); color-scheme:dark } }
+:root[data-theme="dark"]{
+  --paper:#26232B; --bg:#1D1B21; --cream:#352F29; --lav:#302A40; --lav-d:#B6A9DA; --gray:#A59E96; --gray-l:#423D47;
+  --brown:#CCA78A; --brown-l:#3C332B; --ink:#ECE7F0; --sage:#A3B197; --card:#2C2931; --on-accent:#1D1B21; --focus:#5E537A;
+  --title:#E6CFBF; --band:#39322B; --band-ink:#EFE3D6; --band-lav:#3B3352; --band-lav-ink:#E2DAF4; --box:#4E4854; --rule:#6A5A4E; --lineq:#3E3943; --rest-bg:#2D3229; --rest-fg:#A9B79C; --opt-bg:#322D27; --a1:#5D5279; --a2:#6E5644; --a3:#4E5B45; --a4:#6D5F33; --a5:#3F5865; --a6:#6E4545;
+  --shadow:rgba(0,0,0,.5); color-scheme:dark }
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65}
+a{color:var(--lav-d)}
+button{font-family:inherit}
+
+/* ───────── 전체 레이아웃: 왼쪽 목차 + 오른쪽 본문 ───────── */
+.app{display:flex;min-height:100vh}
+.side{width:290px;flex:none;background:var(--paper);border-right:1px solid var(--gray-l);height:100vh;position:sticky;top:0;
+  display:flex;flex-direction:column}
+.brand{padding:20px 20px 12px;border-bottom:1px solid var(--gray-l)}
+.brand b{font-family:var(--serif);font-size:19px;display:block}
+.brand span{font-size:12px;color:var(--gray)}
+.nav{flex:1;overflow-y:auto;padding:8px 10px 20px}
+.nav details{margin:2px 0}
+.nav summary{cursor:pointer;list-style:none;padding:7px 10px;font-size:12.5px;letter-spacing:.06em;color:var(--brown);font-weight:500;border-radius:6px}
+.nav summary::-webkit-details-marker{display:none}
+.nav summary::before{content:"▸ ";color:var(--gray)}
+.nav details[open] summary::before{content:"▾ "}
+.nav a.item{display:flex;gap:8px;align-items:center;padding:5px 10px 5px 18px;border-radius:6px;font-size:13.5px;color:var(--ink);text-decoration:none;cursor:pointer}
+.nav a.item:hover{background:var(--cream)}
+.nav a.item.on{background:var(--lav);color:var(--ink);font-weight:500}
+.nav a.item .t{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dot{width:8px;height:8px;border-radius:50%;flex:none;border:1px solid var(--gray-l);background:var(--card)}
+.dot.done{background:var(--lav-d);border-color:var(--lav-d)} .dot.part{background:#C9BEDF;border-color:#C9BEDF}
+.dot.rest{background:var(--sage);border-color:var(--sage)} .dot.wip{background:var(--brown-l);border-color:var(--brown)}
+.side-foot{border-top:1px solid var(--gray-l);padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.side-foot button{border:1px solid var(--gray-l);background:var(--card);border-radius:8px;padding:7px;font-size:13px;cursor:pointer;color:var(--ink)}
+.side-foot button:hover{background:var(--cream)}
+.side-foot small{color:var(--gray);font-size:11.5px;line-height:1.45}
+
+.main{flex:1;min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.sync{font-size:12px;border:1px solid var(--gray-l);border-radius:20px;padding:2px 10px;background:var(--card);color:var(--gray);white-space:nowrap}
+.sync.ok{color:var(--lav-d)} .sync.err{color:var(--brown);border-color:var(--brown)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--gray-l);
+  display:flex;align-items:center;gap:10px;padding:10px 22px}
+.top .menu{display:none}
+.top button{border:1px solid var(--gray-l);background:var(--card);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:13px;color:var(--ink)}
+.top .grow{flex:1}
+.saved{font-size:12px;color:var(--gray)}
+.sheet{max-width:820px;margin:26px auto 60px;background:var(--paper);border:1px solid var(--gray-l);border-radius:14px;padding:38px 46px 40px;
+  display:flex;flex-direction:column;gap:14px}
+
+/* ───────── 제목·머리 ───────── */
+.kicker{font-size:11.5px;letter-spacing:.18em;color:var(--lav-d);font-weight:500}
+h1{font-family:var(--serif);font-size:30px;font-weight:600;margin:2px 0 0;line-height:1.3}
+h3{font-family:var(--serif);font-size:17px;font-weight:600;margin:10px 0 0}
+.sub{color:var(--gray);margin:2px 0 0}
+.head{border-bottom:1px solid var(--gray-l);padding-bottom:12px}
+.dhead{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--gray-l);padding-bottom:12px}
+.dhead .date{font-family:var(--serif);font-size:28px;font-weight:600}
+.dhead .date span{font-family:var(--sans);font-size:14px;font-weight:400;color:var(--gray);margin-left:6px}
+.dright{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:4px;font-size:12.5px;color:var(--gray)}
+.paper{display:inline-block;font-size:12px;color:var(--brown);border:1px solid var(--brown-l);background:var(--card);border-radius:20px;padding:1px 10px}
+.badge{display:inline-block;font-size:12px;padding:1px 10px;border-radius:20px;font-weight:500;white-space:nowrap}
+.k-core,.k-final{background:var(--lav);color:var(--lav-d)} .k-short{background:var(--brown-l);color:var(--brown)}
+.k-rest{background:var(--rest-bg);color:var(--rest-fg)} .k-optional{background:var(--opt-bg);color:var(--gray)} .k-review{background:var(--cream);color:var(--brown)}
+.task{background:var(--cream);border-left:5px solid var(--brown);border-radius:10px;padding:12px 16px}
+.task small{color:var(--brown);letter-spacing:.06em;font-size:12px}
+.task div{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.5}
+.section-t{display:flex;align-items:center;gap:10px;margin-top:22px;padding-top:18px;border-top:2px dashed var(--gray-l)}
+.section-t b{font-family:var(--serif);font-size:21px}
+
+/* ───────── 입력 요소 ───────── */
+.f label.l, .fl{display:block;font-weight:500;font-size:14.5px;margin-bottom:4px}
+.hint{font-size:12.5px;color:var(--gray);margin:-2px 0 6px}
+textarea, input[type=text], input[type=number], input[type=date]{width:100%;font-family:var(--sans);font-size:15px;color:var(--ink);
+  border:1px solid var(--gray-l);border-radius:8px;background:var(--card);padding:8px 11px;line-height:1.7;resize:vertical}
+textarea:focus, input:focus{outline:2px solid var(--focus);border-color:var(--focus)}
+.checks{display:flex;flex-wrap:wrap;gap:6px 8px}
+.ck{display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border:1px solid var(--gray-l);border-radius:20px;background:var(--card);cursor:pointer;font-size:14px;user-select:none}
+.ck input{accent-color:var(--lav-d);width:16px;height:16px;margin:0}
+.ck:has(input:checked){background:var(--lav);border-color:var(--focus)}
+.li{display:flex;gap:10px;margin-bottom:8px}
+.num{flex:none;width:26px;height:26px;border-radius:50%;border:1px solid var(--lav-d);color:var(--lav-d);display:inline-flex;align-items:center;justify-content:center;font-size:13px;margin-top:6px}
+.li > div{flex:1}
+.li small{color:var(--gray);font-size:12.5px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}
+.chip{border:1px solid var(--gray-l);background:var(--card);border-radius:20px;padding:3px 13px;font-size:13.5px;cursor:pointer;color:var(--gray)}
+.chip.on{background:var(--lav-d);border-color:var(--lav-d);color:var(--on-accent)}
+
+/* 칸마다 입력하는 표 */
+.gt{border:1px solid var(--gray-l);border-radius:10px;overflow:hidden;background:var(--card)}
+.gt-r{display:grid;border-top:1px solid var(--gray-l)} .gt-r:first-child{border-top:none}
+.gt-h{background:var(--brown-l);font-weight:500;font-size:13.5px;padding:7px 10px}
+.gt-c{padding:6px;border-left:1px solid var(--gray-l)} .gt-r > div:first-child{border-left:none}
+.gt-c textarea{border:none;padding:4px 6px;min-height:64px}
+.gt-l{background:var(--cream);font-weight:500;font-size:13.5px;padding:8px 10px;display:flex;align-items:center}
+
+/* 안내 박스 */
+.note{border-radius:10px;padding:12px 16px;font-size:14px;line-height:1.7}
+.note.lav{background:var(--lav)} .note.cream{background:var(--cream)} .note.warn{background:var(--card);border:1.5px solid var(--brown)}
+.note-t{font-weight:700;color:var(--brown);margin-bottom:2px} .note.lav .note-t{color:var(--lav-d)}
+.tbl{width:100%;border-collapse:collapse;font-size:14px;background:var(--card)}
+.tbl th{background:var(--brown-l);font-weight:500;padding:7px 10px;text-align:left;border:1px solid var(--gray-l)}
+.tbl td{padding:7px 10px;border:1px solid var(--gray-l);vertical-align:middle}
+.tbl.cmp th{text-align:center}
+.tbl a{cursor:pointer}
+.small{font-size:13px;color:var(--gray)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mini{background:var(--lav);border-radius:10px;padding:11px;display:flex;flex-direction:column;gap:3px}
+.mini span{font-size:13px;color:var(--gray)}
+a.go{cursor:pointer;font-weight:500;text-decoration:underline;text-underline-offset:3px}
+
+/* 사실-해석 카드 */
+.fcard{border:1px solid var(--gray-l);border-radius:10px;overflow:hidden;background:var(--card)}
+.fcard .ft{background:var(--lav);color:var(--lav-d);padding:7px 14px;font-weight:500;font-size:14px}
+.fr{display:grid;grid-template-columns:30% 1fr;border-top:1px solid var(--gray-l)} .fcard > .fr:first-child{border-top:none}
+.fk{background:var(--cream);padding:9px 12px;display:flex;flex-direction:column} .fk small{color:var(--gray);font-size:12px}
+.fv{padding:6px} .fv textarea{border:none;min-height:56px}
+.fv .ex{font-family:var(--serif);font-size:16px;padding:6px 8px}
+
+/* 11/4 경험 분류 */
+.cl{display:grid;grid-template-columns:1.15fr 1fr 1fr auto;gap:10px;align-items:start;border:1px solid var(--gray-l);border-radius:10px;padding:10px 12px;background:var(--card);margin-bottom:8px}
+.cl small{display:block;font-size:12px;color:var(--gray)}
+.cl .ckx{display:flex;gap:8px;font-weight:500;font-size:14px;align-items:flex-start;cursor:pointer}
+.cl .ckx input{accent-color:var(--lav-d);width:16px;height:16px;margin-top:4px;flex:none}
+.dots{display:flex;gap:5px;margin-top:4px}
+.dots label{cursor:pointer} .dots input{display:none}
+.dots span{display:inline-block;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--lav-d)}
+.dots input:checked + span{background:var(--lav-d)}
+
+/* 기타 */
+.steps{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.step{background:var(--lav);border-radius:10px;padding:9px 12px;font-size:14px;display:flex;gap:8px}
+.step b{font-family:var(--serif);color:var(--lav-d)}
+.timer{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--gray-l);border-radius:10px;padding:10px 14px}
+.timer .clock{font-family:var(--serif);font-size:28px;font-weight:600;min-width:90px}
+.timer button,.btn{border:1px solid var(--lav-d);background:var(--lav-d);color:var(--on-accent);border-radius:8px;padding:7px 14px;cursor:pointer;font-size:14px}
+.btn.ghost{background:var(--card);color:var(--lav-d)}
+.timer .msg{font-size:13.5px;color:var(--brown)}
+.letter{border:1px solid var(--gray-l);border-radius:10px;background:var(--card);padding:12px 16px}
+.letter .open{font-family:var(--serif);font-size:18px;font-weight:600;color:var(--brown);margin-bottom:6px}
+.letter textarea{border:none;padding:4px 0;font-family:var(--serif);font-size:16px;line-height:2.1;
+  background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(2.1em - 1px),var(--gray-l) calc(2.1em - 1px),var(--gray-l) 2.1em);
+  background-attachment:local}
+.act{display:grid;grid-template-columns:auto 1fr auto auto;gap:8px;align-items:center;margin-bottom:6px}
+.act .num{margin-top:0}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.slots b{font-family:var(--serif);color:var(--brown)}
+.prs{display:flex;flex-direction:column;gap:10px}
+.pr{display:flex;gap:16px;padding:13px 16px;background:var(--card);border:1px solid var(--gray-l);border-radius:10px}
+.pr:nth-child(odd){background:var(--cream);border-color:var(--cream)}
+.pr-n{font-family:var(--serif);font-size:26px;color:var(--lav-d);line-height:1;width:24px}
+.pr-t{font-family:var(--serif);font-size:17px;font-weight:600} .pr-s{color:var(--gray);font-size:14px;margin-top:2px}
+.script{background:var(--cream);border-radius:10px;padding:14px 18px;font-family:var(--serif);font-size:16px;line-height:1.85;position:relative}
+.script.s{font-size:15px;padding:10px 14px}
+.copy{display:block;margin-top:8px;border:1px solid var(--brown);background:var(--card);color:var(--brown);border-radius:8px;padding:4px 12px;cursor:pointer;font-family:var(--sans);font-size:13px}
+.sents{display:flex;flex-direction:column;gap:8px}
+.sent{padding:13px 16px;border:1px solid var(--gray-l);border-radius:10px;background:var(--card);font-family:var(--serif);font-size:17px;font-weight:600}
+.sfs{display:flex;flex-direction:column;gap:9px}
+.sf{display:flex;gap:16px;align-items:center;padding:13px 16px;border-radius:10px;background:var(--card);border:1px solid var(--gray-l)}
+.sf:nth-child(odd){background:var(--lav);border-color:var(--lav)}
+.sf-n{font-family:var(--serif);font-size:28px;color:var(--lav-d);width:24px;line-height:1}
+.sf-t{font-family:var(--serif);font-size:17px;font-weight:600}
+.quote{margin-top:6px;padding:12px 16px;background:var(--cream);border-radius:10px;text-align:center;font-family:var(--serif);color:var(--brown);font-size:15px}
+.pager{display:flex;justify-content:space-between;gap:10px;margin-top:10px}
+.pager button{border:1px solid var(--gray-l);background:var(--card);border-radius:8px;padding:9px 14px;cursor:pointer;font-size:13.5px;color:var(--ink);max-width:48%;text-align:left}
+.pager button:hover{background:var(--cream)}
+.links{margin:0}
+
+/* 삶의 영역 */
+.g100{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;max-width:360px}
+.g100 div{aspect-ratio:1;border:1px solid var(--gray-l);border-radius:4px;background:var(--card);cursor:pointer}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:5px}
+.a1{background:var(--a1)!important}.a2{background:var(--a2)!important}.a3{background:var(--a3)!important}
+.a4{background:var(--a4)!important}.a5{background:var(--a5)!important}.a6{background:var(--a6)!important}
+
+/* 점수표 */
+.srow{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--gray-l)}
+.srow .n{color:var(--lav-d);font-family:var(--serif);font-size:18px}
+.radios{display:flex;gap:6px}
+.radios label{cursor:pointer} .radios input{display:none}
+.radios span{display:inline-flex;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--gray-l);align-items:center;justify-content:center;color:var(--gray);background:var(--card)}
+.radios input:checked + span{background:var(--lav-d);border-color:var(--lav-d);color:var(--on-accent);font-weight:700}
+.total{display:flex;justify-content:flex-end;align-items:baseline;gap:8px;font-family:var(--serif);font-size:18px;background:var(--cream);padding:10px 16px;border-radius:10px}
+.total b{font-size:28px;color:var(--lav-d)}
+.chart{background:var(--card);border:1px solid var(--gray-l);border-radius:10px;padding:10px}
+
+/* 오늘 화면 */
+.hero{background:var(--lav);border-radius:12px;padding:18px 20px}
+.hero .big{font-family:var(--serif);font-size:22px;font-weight:600;margin:4px 0 10px}
+.prog{height:10px;background:var(--card);border-radius:10px;overflow:hidden;border:1px solid var(--gray-l)}
+.prog i{display:block;height:100%;background:var(--lav-d)}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.quick a{display:block;background:var(--card);border:1px solid var(--gray-l);border-radius:10px;padding:12px;text-decoration:none;color:var(--ink);cursor:pointer}
+.quick a:hover{background:var(--cream)} .quick small{display:block;color:var(--gray);font-size:12.5px}
+
+/* 더 알아보기·부록 */
+.intro{font-size:15px;line-height:1.8;margin:0}
+.concept{border:1px solid var(--focus);border-radius:10px;overflow:hidden;background:var(--card)}
+.cc-h{background:var(--lav);padding:8px 14px;font-size:13.5px;color:var(--lav-d)} .cc-h b{color:var(--ink)} .cc-h small{color:var(--gray);margin-left:4px}
+.cc-r{display:flex;gap:12px;padding:8px 14px;border-top:1px solid var(--gray-l);font-size:14px;line-height:1.65}
+.cc-r b{width:76px;flex:none;color:var(--lav-d);font-weight:500}
+.xsteps{display:flex;flex-direction:column;gap:6px}
+.xsteps>div{display:flex;gap:10px;align-items:baseline;background:var(--cream);border-radius:8px;padding:8px 12px;font-size:14px}
+.xsteps span{font-family:var(--serif);color:var(--lav-d);font-weight:600;width:14px;flex:none}
+.xsteps b{flex:none;min-width:92px} .xsteps em{font-style:normal}
+.tag{font-size:11px;color:var(--brown);border:1px solid var(--brown-l);border-radius:10px;padding:0 6px;margin-left:4px}
+.quick{grid-template-columns:repeat(4,1fr)!important}
+
+/* ═════ 참고 디자인 적용 ═════ */
+.sheet{border-radius:6px;border-color:var(--box);gap:16px}
+.ph{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding-bottom:12px;border-bottom:1.5px solid var(--rule)}
+.ph-en{font-family:var(--serif);font-size:30px;font-weight:500;color:var(--title);line-height:1.2;text-wrap:balance}
+.ph-ko{font-size:12.5px;color:var(--gray);letter-spacing:.14em;margin-top:2px}
+.ph-r{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.ph-r svg{flex:none}
+.ph-tag{font-size:11.5px;letter-spacing:.12em;color:var(--lav-d)}
+.meta{display:flex;gap:18px;flex-wrap:wrap;font-size:13px}
+.mi{display:flex;align-items:flex-end;gap:8px;min-width:0;flex:1 1 140px}
+.mi b{font-weight:400;color:var(--gray)} .mi u{flex:1;text-decoration:none;border-bottom:1px solid var(--rule);padding:0 4px 2px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.f{border:1px solid var(--box);border-radius:8px;background:var(--card);overflow:hidden}
+.f > label.l, .f > .fl{display:flex;justify-content:space-between;gap:8px;background:var(--band);color:var(--band-ink);padding:8px 14px;margin:0;border-bottom:1px solid var(--box);font-size:14px;font-weight:500}
+.f > .hint{padding:8px 14px 0;margin:0}
+.f > textarea, .gt-c textarea, .fv textarea, .slots textarea, .f .li textarea{border:none;border-radius:0;background-color:transparent;
+  background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(1.7em - 1px),var(--lineq) calc(1.7em - 1px),var(--lineq) 1.7em);background-attachment:local;line-height:1.7;padding:2px 14px 8px}
+.f > .checks, .f > .chips{padding:10px 14px}
+.f > .chips{margin:0;padding-bottom:0}
+.f > .li{padding:10px 14px 0}
+.f .li textarea{padding:2px 4px 6px}
+.qn{display:inline-flex;width:22px;height:22px;border-radius:50%;border:1px solid var(--lav-d);color:var(--lav-d);align-items:center;justify-content:center;font-size:12px;flex:none;background:var(--card)}
+.qen{font-family:var(--serif);font-weight:400;font-size:12px;letter-spacing:.08em;color:var(--gray);white-space:nowrap}
+.f > label.l .qt{flex:1;display:flex;gap:8px;align-items:center}
+.task{background:var(--card);border:1px solid var(--box);border-left:1px solid var(--box);border-radius:8px;padding:0;overflow:hidden}
+.task .tk-h{display:flex;justify-content:space-between;background:var(--band-lav);color:var(--band-lav-ink);padding:8px 14px;font-size:14px;font-weight:500}
+.task .tk-h i{font-style:normal;font-family:var(--serif);font-size:12px;letter-spacing:.08em;opacity:.8;font-weight:400}
+.task .tk-b{padding:12px 16px 14px;font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.5}
+.note{border:1px solid var(--box);background:var(--card)}
+.note.lav{background:color-mix(in srgb,var(--lav) 70%,var(--card))} .note.cream{background:color-mix(in srgb,var(--cream) 60%,var(--card))}
+.note.warn{border:1.5px solid var(--brown);background:var(--card)}
+.note.band{padding:0;overflow:hidden}
+.note.band .note-t{margin:0;padding:8px 14px;background:var(--band);color:var(--band-ink);border-bottom:1px solid var(--box)}
+.note.band.lav .note-t{background:var(--band-lav);color:var(--band-lav-ink)}
+.note.band .note-b{padding:10px 14px 12px}
+.gt,.fcard,.letter,.concept,.chart{border-color:var(--box);border-radius:8px}
+.gt-h,.tbl th{background:var(--band);color:var(--band-ink)}
+.goalbox{border:1px solid var(--box);border-radius:8px;overflow:hidden;background:var(--card)}
+.goalbox .tk-h{display:flex;justify-content:space-between;background:var(--band-lav);color:var(--band-lav-ink);padding:8px 14px;font-size:14px;font-weight:500}
+.goalbox .tk-h i{font-style:normal;font-family:var(--serif);font-size:12px;letter-spacing:.08em;opacity:.8}
+.goalbox .gt1{font-family:var(--serif);font-size:22px;font-weight:600;padding:12px 16px 4px}
+.goalbox .gt2{padding:0 16px 14px} .goalbox .gt2 b{color:var(--lav-d);font-weight:500;margin-right:6px}
+.quote{background:var(--card);border:1px solid var(--box);color:var(--brown)}
+.brand b{color:var(--title)}
+.jsec{margin-top:18px;padding-top:18px;border-top:2px dashed var(--gray-l)}
+
+/* 모바일: 목차를 서랍처럼 */
+@media (max-width:860px){
+  .side{position:fixed;left:0;top:0;z-index:20;transform:translateX(-100%);transition:transform .2s;box-shadow:0 0 30px var(--shadow)}
+  .side.open{transform:none}
+  .top .menu{display:inline-block}
+  .sheet{margin:12px 0 30px;border-radius:12px;padding:22px 16px 30px}
+  .side{padding-top:env(safe-area-inset-top,0px);padding-left:env(safe-area-inset-left,0px)}
+  .top{padding:8px 0}
+  .two,.three,.steps,.slots,.quick{grid-template-columns:1fr}
+  .cl{grid-template-columns:1fr}
+  .srow{grid-template-columns:24px 1fr} .srow .radios{grid-column:1/-1}
+  h1{font-size:24px} .ph-en{font-size:25px}
+  .ph{flex-direction:column;gap:8px} .ph-r{justify-content:flex-start}
+}
+[hidden]{display:none!important}
+/* 화면 안 확인창 */
+.dlg{position:fixed;inset:0;z-index:30;background:color-mix(in srgb,var(--ink) 35%,transparent);display:flex;align-items:center;justify-content:center;padding:16px}
+.dlg-box{background:var(--paper);border:1px solid var(--gray-l);border-radius:14px;padding:20px;max-width:420px;width:100%;display:flex;flex-direction:column;gap:14px}
+.dlg-row{display:flex;gap:8px;justify-content:flex-end}
+/* 동기화 설정창 */
+.sync{cursor:pointer}
+.sbox{max-width:520px;max-height:92vh;overflow:auto}
+.sbox h3{margin:0;font-family:var(--serif);font-size:20px}
+.sbox label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:500}
+.sbox input{width:100%;font-size:15px;padding:8px 10px;border:1px solid var(--gray-l);border-radius:8px;background:var(--card);color:var(--ink)}
+.sbox .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sbox .msg{font-size:13px;line-height:1.5;min-height:1em}
+.sbox .msg.err{color:var(--brown)} .sbox .msg.ok{color:var(--lav-d)}
+.sbox details{font-size:13px;line-height:1.6;background:var(--cream);border-radius:10px;padding:8px 12px}
+.sbox details summary{cursor:pointer;font-weight:500}
+.sbox ol{margin:6px 0 0;padding-left:20px}
+.sbox code{background:var(--card);padding:0 4px;border-radius:4px}
+#qr{display:flex;justify-content:center;padding:8px;background:#fff;border-radius:8px}
+#qr:empty{display:none}
+@media (max-width:520px){ .sbox .row2{grid-template-columns:1fr} }
+@media print{ .side,.top,.pager{display:none} .sheet{border:none;margin:0} }
+</style>
+<div class="app">
+  <aside class="side" id="side">
+    <div class="brand"><b>41일, 나를 돌보는 기록</b><span>2026. 11. 1 — 12. 12</span></div>
+    <nav class="nav" id="nav"></nav>
+    <div class="side-foot">
+      <button id="syncBtn">PC·폰 동기화 설정</button>
+      <button id="exportBtn">백업 내보내기 (파일 저장)</button>
+      <button id="importBtn">백업 불러오기</button>
+      <input type="file" id="importFile" accept=".json" hidden>
+      <small id="storeNote">기록 저장 방식을 확인하는 중입니다…</small>
+    </div>
+  </aside>
+  <main class="main">
+    <div class="top">
+      <button class="menu" id="menuBtn">☰ 목차</button>
+      <button id="todayBtn">오늘로</button>
+      <span class="grow"></span>
+      <span class="sync" id="saved">불러오는 중…</span>
+    </div>
+    <div class="sheet" id="view"></div>
+  </main>
+</div>
+<div class="dlg" id="dlg" hidden><div class="dlg-box"><div id="dlgMsg"></div>
+  <div class="dlg-row"><button class="btn ghost" id="dlgNo">취소</button><button class="btn" id="dlgYes">확인</button></div></div></div>
+<!-- 동기화 설정창: 본인 GitHub 비공개 저장소 + 비밀번호 암호화 -->
+<div class="dlg" id="sdlg" hidden><div class="dlg-box sbox">
+  <h3>PC·폰 동기화 설정</h3>
+  <div style="font-size:13px;line-height:1.55;color:var(--gray)">기록은 이 기기에서 <b>비밀번호로 암호화</b>된 뒤 본인 GitHub <b>비공개 저장소</b>에만 올라갑니다. Claude 계정이나 다른 서버에는 저장되지 않습니다.</div>
+  <div class="row2">
+    <label>GitHub 사용자명<input id="sOwner" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="예: leejian"></label>
+    <label>기록 저장소 이름<input id="sRepo" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="recovery41-data"></label>
+  </div>
+  <label>접근 토큰 (github_pat_…)<input id="sToken" type="password" autocomplete="off" spellcheck="false"></label>
+  <label>암호화 비밀번호 <small style="font-weight:400;color:var(--gray)">모든 기기에서 같은 비밀번호 · 잊으면 복구 불가</small><input id="sPass" type="password" autocomplete="new-password"></label>
+  <div class="msg" id="sMsg"></div>
+  <div id="qr"></div>
+  <div class="dlg-row" style="flex-wrap:wrap">
+    <button class="btn ghost" id="sOff" hidden>연결 해제</button>
+    <button class="btn ghost" id="sLink" hidden>폰 연결 링크·QR</button>
+    <span style="flex:1"></span>
+    <button class="btn ghost" id="sClose">닫기</button><button class="btn" id="sSave">연결하고 동기화</button>
+  </div>
+  <details><summary>처음 설정하는 방법 (PC에서 한 번, 약 10분)</summary><ol>
+    <li>github.com 가입/로그인 → 오른쪽 위 <b>+</b> → <b>New repository</b> → 이름 <code>recovery41-data</code>, <b>Private</b> 선택 → Create.</li>
+    <li>프로필 사진 → <b>Settings</b> → 맨 아래 <b>Developer settings</b> → <b>Personal access tokens → Fine-grained tokens</b> → <b>Generate new token</b>.</li>
+    <li>Expiration: <b>Custom</b> → 2027년 1월 이후 날짜 · Repository access: <b>Only select repositories</b> → <code>recovery41-data</code> 하나만.</li>
+    <li>Permissions → <b>Contents: Read and write</b> → Generate → 나온 토큰(github_pat_…)을 위 칸에 붙여넣기.</li>
+    <li>비밀번호를 정하고 <b>연결하고 동기화</b>. 그다음 <b>폰 연결 링크·QR</b>로 폰에서 열고 같은 비밀번호만 입력하면 끝.</li>
+  </ol></details>
+</div></div>
+
+<script>
+/* ════════════════════════════════════════════════════════════
+   데이터: build_web.py가 페이지·양식 정보를 아래 자리에 채워 넣는다
+   ════════════════════════════════════════════════════════════ */
+const DATA = {"pages": [{"key": "home", "group": "시작", "title": "오늘", "fields": [], "special": "home", "en": "Today"}, {"key": "guide", "group": "시작", "title": "사용 안내", "fields": [{"t": "html", "html": "<div class=\"two\">\n      <div><h3>하루의 구성<\/h3><p>하루는 <b>두 부분<\/b>으로 이루어져 있습니다.<\/p>\n        <p>① <b>오늘의 과제<\/b> — 날짜별로 정해진 한 가지 과제<br>② <b>오늘의 회복 기록<\/b> — 매일 같은 네 가지 질문<\/p>\n        <p class=\"small\">휴식일에도 회복 기록은 한두 줄이면 충분합니다.<\/p><\/div>\n      <div><h3>쓰는 방법<\/h3><p>· 종이에 먼저 쓰고 옮길 때는 화면 위쪽의 <b>종이 ○쪽<\/b> 표시를 참고하세요.<br>\n        · 사건은 <b>이름과 남은 감정<\/b>만 적고, 장면을 자세히 묘사하지 않습니다.<br>\n        · 매주 일요일에는 <a class=\"go\" data-go=\"scores\">회복 점수표<\/a>를 함께 씁니다.<\/p><\/div><\/div>\n    <h3>요일별 과제 강도<\/h3>\n    <table class=\"tbl\"><tr><th>요일<\/th><th>구분<\/th><th>분량<\/th><\/tr>\n      <tr><td>월 · 수<\/td><td><span class=\"badge k-core\">핵심 과제<\/span><\/td><td>20분 내외, 상담일은 30~50분<\/td><\/tr>\n      <tr><td>화 · 목<\/td><td><span class=\"badge k-short\">짧은 과제<\/span><\/td><td>5~10분<\/td><\/tr>\n      <tr><td>금<\/td><td><span class=\"badge k-rest\">휴식<\/span><\/td><td>회복 과제 없음. 학업·취업 준비에 집중<\/td><\/tr>\n      <tr><td>토<\/td><td><span class=\"badge k-optional\">선택 자기돌봄<\/span><\/td><td>하고 싶을 때만<\/td><\/tr>\n      <tr><td>일<\/td><td><span class=\"badge k-review\">주간 점검<\/span><\/td><td>10~15분 + 회복 점수표<\/td><\/tr><\/table>"}, {"t": "note", "html": "<b>감정이 지나치게 격해지면 바로 멈추세요.<\/b> 발바닥이 바닥에 닿는 감각 느끼기 → 눈에 보이는 물건 5개 이름 말하기 → 물 한 잔 천천히 마시기. 과제는 내일, 혹은 상담에서 이어가도 됩니다. 자세한 방법은 <a class=\"go\" data-go=\"x_stop\">부록 · 잠시 멈추기<\/a>.", "tone": "warn", "title": "멈춰야 할 때"}, {"t": "note", "html": "<b>하루 빠졌다면<\/b> 밀린 과제는 버리고 오늘 날짜부터 다시 시작합니다. 다음 날 두 배로 하지 않습니다.<br><b>12월 12일<\/b>은 완전히 회복해야 하는 마감일이 아니라, 변화를 점검하고 방향을 정하는 날입니다.", "tone": "cream", "title": "빠진 날과 마지막 날"}, {"t": "h", "text": "도움이 필요할 때"}, {"t": "html", "html": "<table class=\"tbl\">\n      <tr><td><b>1577-0199<\/b><\/td><td>정신건강 위기상담 (24시간, 지역 정신건강복지센터 연결)<\/td><\/tr>\n      <tr><td><b>1366<\/b><\/td><td>여성긴급전화 (365일 24시간, 폭력 피해 초기 상담·연계)<\/td><\/tr>\n      <tr><td><b>해바라기센터<\/b><\/td><td>성폭력 피해 상담·의료·법률 통합 지원 (지역별 센터, 다수 24시간)<\/td><\/tr>\n      <tr><td><b>학교 학생상담센터<\/b><\/td><td>재학생 대상 상담 — 예약 방법은 학교 홈페이지에서 확인<\/td><\/tr>\n      <tr><td><b>109 / 112 / 119<\/b><\/td><td>자살예방상담 / 즉각적인 위험·폭력 / 응급 상황<\/td><\/tr><\/table>"}, {"t": "text", "id": "contacts", "label": "내가 연락할 수 있는 사람·기관 (이름 / 연락처)", "hint": "", "rows": 3}, {"t": "note", "html": "<b>자동 저장<\/b> — 입력하는 즉시 이 기기에 저장됩니다. 저장 버튼은 없습니다.<br><b>PC·폰 동기화<\/b> — 왼쪽 아래 <b>동기화 설정<\/b>에서 본인 GitHub 비공개 저장소를 연결하면, 기록이 <b>비밀번호로 암호화<\/b>된 뒤 자동으로 올라가고 다른 기기에서 열면 자동으로 받아옵니다. Claude 계정이나 다른 서버에는 저장되지 않습니다.<br><b>비밀번호를 잊으면 복구할 수 없으니<\/b> 따로 적어 두고, 가끔 <b>백업 내보내기<\/b>로 파일도 받아 두세요.", "tone": "cream", "title": "기록 저장에 대해"}], "paper": 2, "en": "How to Use"}, {"key": "schedule", "group": "시작", "title": "41일 전체 일정표", "fields": [], "special": "schedule", "paper": 3, "en": "41-Day Overview"}, {"key": "principles", "group": "시작", "title": "회복 원칙 6가지", "fields": [{"t": "html", "html": "<div class=\"prs\"><div class=\"pr\"><div class=\"pr-n\">1<\/div><div><div class=\"pr-t\">과거를 억지로 잊으려고 하지 않기.<\/div><div class=pr-s>기억이 떠오르는 것과 과거에 갇혀 사는 것은 다르다.<\/div><\/div><\/div><div class=\"pr\"><div class=\"pr-n\">2<\/div><div><div class=\"pr-t\">가해자를 용서하는 것을 회복의 조건으로 삼지 않기.<\/div><\/div><\/div><div class=\"pr\"><div class=\"pr-n\">3<\/div><div><div class=\"pr-t\">일기를 쓰다가 감정이 지나치게 격해지면 중단하기.<\/div><div class=pr-s>특히 성폭력과 관련된 기억은 혼자서 세세하게 파헤치지 말고 전문가와 다루기.<\/div><\/div><\/div><div class=\"pr\"><div class=\"pr-n\">4<\/div><div><div class=\"pr-t\">하루 빠졌다고 다음 날 두 배로 하지 않기.<\/div><div class=pr-s>밀린 과제는 버리고 현재 날짜부터 다시 시작하기.<\/div><\/div><\/div><div class=\"pr\"><div class=\"pr-n\">5<\/div><div><div class=\"pr-t\">폭력은 반복하지 않기.<\/div><div class=pr-s>감정이 격해지면 대화를 중단하고 거리를 확보하기.<\/div><\/div><\/div><div class=\"pr\"><div class=\"pr-n\">6<\/div><div><div class=\"pr-t\">힘들면 상담받기.<\/div><div class=pr-s>상담은 더 안전하고 효율적으로 회복하기 위한 방법이라는 점 기억하기.<\/div><\/div><\/div><\/div>"}], "paper": 5, "en": "Six Principles"}, {"key": "fact", "group": "시작", "title": "사실과 해석 구분하기", "fields": [{"t": "html", "html": "<table class=\"tbl cmp\"><tr><th><\/th><th>사실<\/th><th>해석<\/th><\/tr>\n      <tr><td><b>정의<\/b><\/td><td>누가 봐도 똑같이 확인할 수 있는 일<\/td><td>그 일에 내가 붙인 의미·예측<\/td><\/tr>\n      <tr><td><b>신호<\/b><\/td><td>시간, 장소, 행동, 말 그대로의 내용<\/td><td>\"분명히\", \"항상\", \"절대\", \"~일 것이다\"<\/td><\/tr>\n      <tr><td><b>확인<\/b><\/td><td>증거로 확인할 수 있다<\/td><td>확인 전까지는 '가능성 중 하나'<\/td><\/tr><\/table>"}, {"t": "h", "text": "예시"}, {"t": "factex", "vals": ["오늘 오후부터 연락이 없다.", "나에게 마음이 식었을 것이다.", "예전에 갑자기 버림받았던 경험이 떠올랐다.", "아직 마음이 식었다는 증거는 없다. 필요하면 차분하게 연락을 요청하겠다."]}, {"t": "note", "html": "해석을 했다고 잘못된 것이 아닙니다. 해석은 마음이 나를 지키려고 빠르게 내놓는 추측입니다. 다만 추측을 <b>사실처럼 믿고 행동하기 전에<\/b> 한 번 구분해 보는 것이 이 연습의 목적입니다.", "tone": "lav", "title": ""}, {"t": "note", "html": "이 구분은 <b>실제로 확인된 문제를 덮기 위한 것이 아닙니다.<\/b> 약속을 반복해서 어기거나 거짓말이 확인되었다면, 그것은 '사실'로서 현재의 문제로 다룹니다.", "tone": "cream", "title": ""}, {"t": "h", "text": "연습"}, {"t": "fact", "id": "p1", "title": "연습 1"}, {"t": "fact", "id": "p2", "title": "연습 2"}], "paper": 6, "en": "Fact & Interpretation"}, {"key": "extra", "group": "시작", "title": "여분 회복 기록", "fields": [], "special": "extra", "paper": 8, "en": "Spare Journal"}, {"key": "d0", "group": "준비일", "title": "11/1 (일) 준비일 · 41일 시작 전 준비", "fields": [{"t": "note", "html": "오늘은 과제를 하는 날이 아니라 <b>내일부터의 41일을 편하게 시작할 수 있도록 준비하는 날<\/b>입니다. 다 하지 않아도 괜찮고, 15분 정도면 충분합니다.", "tone": "lav", "title": "DAY 0 · 준비일"}, {"t": "h", "text": "준비 체크리스트"}, {"t": "checks", "id": "ready", "items": ["사용 안내 읽기", "회복 원칙 6가지 읽기", "감정이 격해졌을 때의 5단계 안전 계획 훑어보기", "연락할 수 있는 사람·기관 적어 두기 (사용 안내 맨 아래)", "PC와 폰에 동기화 설정하기", "내일 과제를 할 시간 정하기"], "label": ""}, {"t": "html", "html": "<p class=\"links\"><a class=\"go\" data-go=\"guide\">→ 사용 안내<\/a> · <a class=\"go\" data-go=\"principles\">→ 회복 원칙<\/a> · <a class=\"go\" data-go=\"safety\">→ 안전 계획<\/a><\/p>"}, {"t": "text", "id": "when", "label": "내일(11/2 월) 첫 과제를 할 시간과 장소", "hint": "예: 저녁 9시, 내 방 책상", "rows": 2}, {"t": "text", "id": "now", "label": "41일을 시작하기 전, 지금의 마음 한두 줄", "hint": "", "rows": 3}, {"t": "text", "id": "wish", "label": "41일 동안 나에게 바라는 것 한 가지 (완벽하지 않아도 되는 것)", "hint": "", "rows": 2}], "special": "prep", "md": "11/1", "wd": "일", "iso": "2026-11-01", "task": "41일을 시작하기 전, 준비하는 날", "en": "Day Zero"}, {"key": "wi_w1", "group": "1주 차", "title": "1주 차 시작", "fields": [], "special": "week", "week": "w1", "theme": "내가 왜 아픈지 정확하게 이해하기", "goal": "과거의 사건과 현재의 반응을 연결해서 이해하기.", "range": "11/2 – 11/8", "extra": "", "paper": 9, "more": [{"key": "x_recovery", "title": "회복이란, 과거를 보낸다는 것"}, {"key": "x_reaction", "title": "상처받았을 때 나의 반응과 생각 습관"}, {"key": "x_cbt", "title": "감정과 생각을 나누어 보기"}], "en": "Week One"}, {"key": "x_recovery", "group": "1주 차", "title": "회복이란, 과거를 보낸다는 것", "fields": [{"t": "html", "html": "<p class=\"intro\">회복은 곧게 뻗은 길이 아니라 오르내리는 길에 가깝습니다. 한동안 괜찮다가 예전 감정이 돌아와도 처음으로 되돌아간 것이 아닙니다. 그리고 과거를 '보낸다'는 것은 그 일을 없던 일로 만들거나 누군가를 용서하는 것이 아니라, <b>기억이 지금의 선택을 운전하지 않게 하는 것<\/b>입니다.<\/p>"}, {"t": "html", "html": "<table class=\"tbl cmp\"><tr><th>회복이 아닌 것<\/th><th>회복에 가까운 것<\/th><\/tr><tr><td>더 이상 아무것도 느끼지 않게 되는 것<\/td><td>감정이 와도 지나간다는 걸 알고 견딜 수 있는 것<\/td><\/tr><tr><td>같은 패턴이 다시는 나타나지 않는 것<\/td><td>패턴을 조금 더 빨리 알아차리고 부드럽게 대하는 것<\/td><\/tr><tr><td>과거를 떠올려도 아무렇지 않은 것<\/td><td>과거가 떠올라도 지금 앞의 사람과 상황을 다시 볼 수 있는 것<\/td><\/tr><tr><td>누군가에게 '다 괜찮아졌다'고 증명하는 것<\/td><td>힘들 때 나를 돌보는 방법이 하나씩 늘어나는 것<\/td><\/tr><\/table>"}, {"t": "html", "html": "<div class=\"xsteps\"><div><span>1<\/span><b>알아차리기<\/b><em>이 감정은 지금 상황보다 크다. 어디에서 왔을까?<\/em><\/div><div><span>2<\/span><b>인정하기<\/b><em>그때의 나에게 필요했던 것이 있었다.<\/em><\/div><div><span>3<\/span><b>자원 확인<\/b><em>지금의 나는 말할 수 있고, 떠날 수 있고, 도움을 청할 수 있다.<\/em><\/div><div><span>4<\/span><b>현재 보기<\/b><em>지금 이 사람은 그때 그 사람이 아니다. 실제로 일어난 일은 이것뿐이다.<\/em><\/div><div><span>5<\/span><b>선택하기<\/b><em>지금의 나에게 맞는 행동을 고른다. 이 과정은 반복될수록 쉬워진다.<\/em><\/div><\/div>"}, {"t": "text", "id": "a", "label": "읽고 나서 떠오른 생각 (쓰지 않아도 됩니다)", "hint": "", "rows": 4}], "extra": true, "kicker": "더 알아보기 · 선택", "paper": 10, "en": "Recovery & Letting Go"}, {"key": "x_reaction", "group": "1주 차", "title": "상처받았을 때 나의 반응과 생각 습관", "fields": [{"t": "html", "html": "<p class=\"intro\">상처받으면 사람은 대체로 <b>싸우거나<\/b>(따지기·화내기) <b>달아나거나<\/b>(연락 끊기·피하기) <b>얼어붙거나<\/b>(말을 잃기·멍해지기) <b>맞춰 주는<\/b>(괜찮은 척·비위 맞추기) 쪽으로 반응합니다. 어느 것이 옳고 그른 것이 아니라, 한때 나를 지켜 준 방식입니다. 알아차리면 지금도 그 방식이 필요한지 고를 수 있습니다.<\/p>"}, {"t": "checks", "id": "react", "items": ["말이 많아진다", "말이 없어진다", "연락을 끊는다", "계속 확인한다", "상대를 탓한다", "나를 탓한다", "괜찮은 척한다", "눈물이 난다", "화가 난다", "멍해진다", "몸이 아프다", "잠이 안 온다", "폭식·과음", "일에 몰두한다"], "label": "상처받았을 때 나에게 자주 나타나는 반응"}, {"t": "text", "id": "want", "label": "그 반응 아래에서 내 마음이 진짜 바라는 것", "hint": "예: 화를 내지만 사실은 안심시켜 주길 바란다.", "rows": 4}, {"t": "checks", "id": "thought", "items": ["결국 떠날 거야", "내가 부족해서 그래", "믿으면 안 돼", "말해 봤자 소용없어", "내가 참으면 돼", "확인해야 안심이 돼", "먼저 떠나는 게 나아", "다 내 탓이야", "다 상대 탓이야"], "label": "자주 떠오르는 생각"}, {"t": "text", "id": "cost", "label": "그 방식이 예전의 나를 어떻게 지켜 주었나 / 지금은 어떤 비용이 드나", "hint": "", "rows": 5}], "extra": true, "kicker": "더 알아보기 · 선택", "paper": 11, "en": "My Reactions"}, {"key": "x_cbt", "group": "1주 차", "title": "감정과 생각을 나누어 보기", "fields": [{"t": "html", "html": "<p class=\"intro\">\"버려진 것 같아\"는 감정이 아니라 생각입니다. 감정은 '불안하다, 서운하다'처럼 한 단어로 말할 수 있고, 생각은 상황에 붙인 이야기입니다. 둘이 섞이면 생각이 사실처럼 느껴집니다.<\/p>"}, {"t": "html", "html": "<div class=\"concept\"><div class=\"cc-h\">심리학에서 빌려온 생각 · <b>인지행동치료의 기본 틀<\/b> <small>CBT · 상황–생각–감정–행동<\/small><\/div><div class=\"cc-r\"><b>개념<\/b><span>같은 상황도 그 순간 스치는 '자동적 생각'에 따라 감정과 행동이 달라진다고 봅니다.<\/span><\/div><div class=\"cc-r\"><b>일상에서<\/b><span>답장이 세 시간 늦다 → '관심이 식었다' → 불안·서운함 → 차갑게 답한다. '바쁜가 보다'로 읽으면 감정과 행동이 전혀 달라집니다.<\/span><\/div><div class=\"cc-r\"><b>나에게 적용<\/b><span>감정이 크게 올라오면 네 칸으로 나눠 적습니다. 생각 칸을 적는 것만으로 '이건 내 해석일 수 있다'는 틈이 생깁니다.<\/span><\/div><\/div>"}, {"t": "table", "id": "four", "headers": ["상황 — 실제로 있었던 일", "생각 — 머릿속에 스친 말", "감정 — 한 단어와 크기", "행동 — 그래서 한 것"], "rows": [""]}, {"t": "text", "id": "alt", "label": "생각 칸의 말은 확실한 사실인가요, 하나의 해석인가요? 다른 해석이 있다면?", "hint": "", "rows": 4}], "extra": true, "kicker": "더 알아보기 · 선택", "paper": 12, "en": "Feelings & Thoughts"}, {"key": "d_11/2", "group": "1주 차", "title": "11/2 (월) 회복 일기 첫 장. 내가 과거를 보내고 싶은 이유와 12월 12일의 목표 적기", "fields": [{"t": "note", "html": "오늘은 첫 장입니다. 정답을 쓰려 하지 말고, 지금 떠오르는 만큼만 적어도 충분합니다.", "tone": "lav", "title": ""}, {"t": "text", "id": "a", "label": "① 내가 과거를 보내고 싶은 이유", "hint": "과거를 '지우는' 이유가 아니라, 과거가 지금의 나를 덜 붙잡기를 바라는 이유를 적어 보세요.", "rows": 5}, {"t": "text", "id": "b", "label": "② 12월 12일의 나에게 바라는 목표", "hint": "'완전히 괜찮아지기'보다 '불안할 때 10분 멈출 수 있기'처럼 작고 구체적으로.", "rows": 5}, {"t": "text", "id": "c", "label": "③ 이 목표를 위해 이번 주 내가 할 수 있는 가장 작은 행동 하나", "hint": "", "rows": 2}], "special": "day", "md": "11/2", "no": 1, "wd": "월", "kind": "core", "mins": "20분", "task": "회복 일기 첫 장. 내가 과거를 보내고 싶은 이유와 12월 12일의 목표 적기", "iso": "2026-11-02", "paper": 14, "paperj": 15, "en": "Recovery Task"}, {"key": "d_11/3", "group": "1주 차", "title": "11/3 (화) 내가 가장 두려워하는 상황 5가지 적기", "fields": [{"t": "note", "html": "적는 것만으로 충분합니다. 오늘은 해결책을 찾지 않아도 됩니다.", "tone": "cream", "title": ""}, {"t": "list", "id": "l", "n": 5, "prefix": "", "hint": "두려운 상황 / 그 상황에서 가장 걱정되는 것", "rows": 2}], "special": "day", "md": "11/3", "no": 2, "wd": "화", "kind": "short", "mins": "10분", "task": "내가 가장 두려워하는 상황 5가지 적기", "iso": "2026-11-03", "paper": 16, "paperj": 17, "en": "Recovery Task"}, {"key": "d_11/4", "group": "1주 차", "title": "11/4 (수) 과거에 겪은 일 중 지금까지 영향을 주는 경험을 분류하기. 세부 묘사는 하지 않기", "fields": [{"t": "note", "html": "<b>세부 묘사는 하지 않습니다.<\/b> 장면, 대화, 순서를 떠올려 적지 않습니다. 해당하는 칸에 체크하고 '중학교 때 일', '그 사람과의 일'처럼 <b>이름표<\/b>와 <b>지금 남아 있는 감정<\/b>만 적습니다. 이름표조차 쓰기 어렵다면 체크만 해도 충분합니다. 특히 성폭력과 관련된 기억은 혼자 자세히 다루지 않고 상담에서 함께 다룹니다.", "tone": "warn", "title": "적기 전에"}, {"t": "classify", "id": "cl", "cats": ["버림받음과 이용당함", "배신과 신뢰의 손상", "따돌림과 사회적 소외", "성폭력과 신체적·정서적 안전의 침해"]}, {"t": "note", "html": "쓰다가 마음이 크게 흔들리면 지금 바로 멈추세요. 발바닥 감각 → 보이는 물건 5개 → 물 한 잔. 오늘 다 채우지 않아도 이 과제는 완료입니다.", "tone": "cream", "title": ""}], "special": "day", "md": "11/4", "no": 3, "wd": "수", "kind": "core", "mins": "20분", "task": "과거에 겪은 일 중 지금까지 영향을 주는 경험을 분류하기. 세부 묘사는 하지 않기", "iso": "2026-11-04", "paper": 18, "paperj": 19, "en": "Recovery Task"}, {"key": "d_11/5", "group": "1주 차", "title": "11/5 (목) 불안이 생길 때 몸에서 나타나는 반응 3가지 찾기", "fields": [{"t": "h", "text": "참고: 흔히 나타나는 몸의 반응 (해당하는 것에 체크)"}, {"t": "checks", "id": "body", "items": ["심장이 빨리 뛴다", "가슴이 답답하다", "숨이 얕아진다", "손이 떨리거나 차가워진다", "배·위가 조인다", "어깨·턱에 힘이 들어간다", "얼굴이 뜨거워진다", "잠이 오지 않는다"], "label": ""}, {"t": "list", "id": "l", "n": 3, "prefix": "", "hint": "몸의 반응 / 주로 언제 나타나는지", "rows": 2}], "special": "day", "md": "11/5", "no": 4, "wd": "목", "kind": "short", "mins": "5분", "task": "불안이 생길 때 몸에서 나타나는 반응 3가지 찾기", "iso": "2026-11-05", "paper": 20, "paperj": 21, "en": "Recovery Task"}, {"key": "d_11/6", "group": "1주 차", "title": "11/6 (금) 회복 과제 없음. 취업 준비와 졸업작품에 집중", "fields": [{"t": "note", "html": "오늘은 회복 과제가 없는 날입니다. 쉬는 것도 회복의 일부입니다. 아무것도 쓰지 않아도 괜찮습니다.", "tone": "cream", "title": "쉬는 날"}, {"t": "h", "text": "오늘 내가 집중한 것 (선택)"}, {"t": "checks", "id": "focus", "items": ["취업 준비", "졸업작품", "학교 수업·과제", "그 밖의 일"], "label": ""}, {"t": "h", "text": "나를 위해 한 기본 돌봄 (선택)"}, {"t": "checks", "id": "care", "items": ["충분히 잤다", "식사를 챙겼다", "물을 마셨다", "잠깐 바깥 공기를 쐬었다", "휴대폰을 잠시 내려놓았다"], "label": ""}, {"t": "text", "id": "notice", "label": "쉬면서 알아챈 것 (선택)", "hint": "", "rows": 3}], "special": "day", "md": "11/6", "no": 5, "wd": "금", "kind": "rest", "mins": "휴식", "task": "회복 과제 없음. 취업 준비와 졸업작품에 집중", "iso": "2026-11-06", "paper": 22, "paperj": 23, "en": "Recovery Task"}, {"key": "d_11/7", "group": "1주 차", "title": "11/7 (토) 좋아하는 음악, 산책, 취미 중 하나 선택하기", "fields": [{"t": "note", "html": "선택 과제입니다. 하지 않고 쉬어도 괜찮습니다.", "tone": "cream", "title": ""}, {"t": "h", "text": "오늘 고른 것"}, {"t": "checks", "id": "pick", "items": ["좋아하는 음악 듣기", "산책", "취미", "오늘은 그냥 쉬기"], "label": ""}, {"t": "text", "id": "what", "label": "무엇을 했나요?", "hint": "", "rows": 2}, {"t": "text", "id": "feel", "label": "하는 동안 / 하고 나서 느낀 점 한 줄", "hint": "", "rows": 2}], "special": "day", "md": "11/7", "no": 6, "wd": "토", "kind": "optional", "mins": "선택", "task": "좋아하는 음악, 산책, 취미 중 하나 선택하기", "iso": "2026-11-07", "paper": 24, "paperj": 25, "en": "Recovery Task"}, {"key": "d_11/8", "group": "1주 차", "title": "11/8 (일) 이번 주에 알게 된 나의 감정 패턴 3가지 적기", "fields": [{"t": "note", "html": "패턴은 '상황 → 감정 → 내가 한 행동'의 반복입니다. 이번 주 회복 기록을 훑어보며 찾아보세요.", "tone": "lav", "title": ""}, {"t": "list", "id": "l", "n": 3, "prefix": "상황 → 감정 → 내가 한 행동 :", "hint": "", "rows": 3}, {"t": "scorelink", "label": "1주 차"}], "special": "day", "md": "11/8", "no": 7, "wd": "일", "kind": "review", "mins": "10분", "task": "이번 주에 알게 된 나의 감정 패턴 3가지 적기", "iso": "2026-11-08", "paper": 26, "paperj": 27, "en": "Recovery Task"}, {"key": "wi_w2", "group": "2주 차", "title": "2주 차 시작", "fields": [], "special": "week", "week": "w2", "theme": "과거의 나를 현재의 내가 돌보기", "goal": "과거의 나를 비난하지 않고 인정하기.", "range": "11/9 – 11/15", "extra": "", "paper": 28, "more": [{"key": "x_compassion", "title": "친구에게 하듯 나에게 말하기"}, {"key": "x_comfort", "title": "위로를 건강하게 받아들이기"}], "en": "Week Two"}, {"key": "counsel", "group": "2주 차", "title": "첫 상담 안내", "fields": [{"t": "h", "text": "모든 이야기를 한꺼번에 하지 않아도 됩니다"}, {"t": "html", "html": "<p>첫 상담의 목표는 '전부 말하기'가 아니라 '이 사람과 함께 시작할 수 있겠다'는 감각을 얻는 것입니다. 아래 세 가지 중 편한 것부터 시작하세요.<\/p>\n    <div class=\"three\"><div class=\"mini\"><b>현재 관계의 불안<\/b><span>연락, 확인, 의존처럼 지금 반복되는 모습<\/span><\/div>\n      <div class=\"mini\"><b>과거가 떠오르는 순간<\/b><span>어떤 상황에서 예전 기억이 겹쳐 보이는지<\/span><\/div>\n      <div class=\"mini\"><b>감정 조절<\/b><span>감정이 격해질 때 멈추는 방법<\/span><\/div><\/div>"}, {"t": "h", "text": "상담에서 그대로 읽어도 되는 문장"}, {"t": "html", "html": "<div class=\"script\">\"과거의 관계 경험과 학창 시절의 상처가 현재 관계에서 불안과 과도한 의존으로 이어지는 것 같습니다. 과거를 무조건 잊고 싶은 것이 아니라, 현재와 과거를 구분하고 감정적으로 안정된 사람이 되고 싶습니다. 감정이 격해졌을 때 공격적인 행동을 하지 않는 방법도 배우고 싶습니다.\"<button class=\"copy\" data-copy=\"과거의 관계 경험과 학창 시절의 상처가 현재 관계에서 불안과 과도한 의존으로 이어지는 것 같습니다. 과거를 무조건 잊고 싶은 것이 아니라, 현재와 과거를 구분하고 감정적으로 안정된 사람이 되고 싶습니다. 감정이 격해졌을 때 공격적인 행동을 하지 않는 방법도 배우고 싶습니다.\">문장 복사<\/button><\/div>"}, {"t": "note", "html": "성폭력과 관련된 경험은 <b>자세히 말해야 한다고 스스로를 압박하지 않아도 됩니다.<\/b> 회복에서는 안정감과 준비가 먼저입니다. \"그 경험도 있지만, 아직은 자세히 말하기 어려워요\"라고만 말해도 충분하며, 언제, 어디까지 말할지는 내가 정할 수 있습니다.", "tone": "warn", "title": "꼭 기억할 것"}, {"t": "h", "text": "상담사에게 확인해 볼 것"}, {"t": "checks", "id": "ask", "items": ["트라우마를 다룬 경험이 있는지", "상담 횟수·비용·주기", "비밀 보장의 범위", "힘들 때 중간에 멈출 수 있는지"], "label": ""}, {"t": "h", "text": "상담 찾기"}, {"t": "html", "html": "<p class=\"small\">학교 학생상담센터(재학생 대상 상담 운영) · 지역 정신건강복지센터(1577-0199로 연결) · 성폭력 관련 통합 지원은 해바라기센터 · 그 밖에 트라우마 상담 경험이 있는 상담기관<\/p>"}, {"t": "text", "id": "book", "label": "예약 메모 (기관 / 날짜 / 시간)", "hint": "", "rows": 2}], "paper": 29, "en": "Before Counseling"}, {"key": "x_compassion", "group": "2주 차", "title": "친구에게 하듯 나에게 말하기", "fields": [{"t": "html", "html": "<p class=\"intro\">친구의 실수에는 \"그럴 수 있지\"라고 하면서, 나에게는 \"또 이 모양이야\"라고 말하곤 합니다. 자신을 혹독하게 대하면 변할 것 같지만, 실제로는 이해받은 사람이 더 잘 다시 시도합니다.<\/p>"}, {"t": "html", "html": "<div class=\"concept\"><div class=\"cc-h\">심리학에서 빌려온 생각 · <b>자기연민<\/b> <small>Self-Compassion · 크리스틴 네프<\/small><\/div><div class=\"cc-r\"><b>개념<\/b><span>힘든 순간의 나를 아끼는 친구 대하듯 대하는 태도. 나에게 친절하기, 누구나 겪는 일임을 알기, 감정을 부풀리지도 누르지도 않고 보기의 세 가지로 설명합니다.<\/span><\/div><div class=\"cc-r\"><b>일상에서<\/b><span>자책이 떠오르면 '가장 아끼는 친구가 지금 내 상황이라면 뭐라고 말해 줄까?'를 묻습니다.<\/span><\/div><div class=\"cc-r\"><b>나에게 적용<\/b><span>그 말을 그대로 나에게 해 줍니다. 처음엔 어색한 것이 정상입니다.<\/span><\/div><\/div>"}, {"t": "table", "id": "voice", "headers": ["자기비난의 말 — 내가 나에게 자주 하는 말", "자기이해의 말 — 친구에게라면 할 말"], "rows": ["", "", ""]}, {"t": "text", "id": "whose", "label": "나를 비난하는 목소리는 누구의 말투를 닮았나요? 지금의 나에게 꼭 필요한가요?", "hint": "", "rows": 3}, {"t": "text", "id": "res", "label": "지금의 내가 가진, 그때의 나에게는 없었던 자원", "hint": "예: 말할 수 있는 사람, 혼자 살아갈 능력, 떠날 수 있는 선택지, 이 워크북.", "rows": 3}], "extra": true, "kicker": "더 알아보기 · 선택", "paper": 30, "en": "Self-Compassion"}, {"key": "x_comfort", "group": "2주 차", "title": "위로를 건강하게 받아들이기", "fields": [{"t": "html", "html": "<p class=\"intro\">상처가 있으면 위로를 의심하거나(\"진심일까\"), 밀어내거나(\"신경 쓰지 마\"), 위로가 모든 걸 해결해 주길 바라기도 합니다. 위로는 감정을 지워 주는 것이 아니라 <b>혼자가 아니게 해 주는 것<\/b>입니다.<\/p>"}, {"t": "html", "html": "<div class=\"xsteps\"><div><span>1<\/span><b>일단 받기<\/b><em>어색해도 \"고마워\" 한마디면 충분합니다.<\/em><\/div><div><span>2<\/span><b>방식 알려 주기<\/b><em>상대는 내 마음을 읽을 수 없습니다. 원하는 위로를 말해 줍니다.<\/em><\/div><div><span>3<\/span><b>남아 있어도 괜찮기<\/b><em>위로를 받은 뒤에도 감정이 남아 있는 것은 자연스럽습니다.<\/em><\/div><div><span>4<\/span><b>출처 살피기<\/b><em>'그래도 결국 혼자야'가 떠오르면, 지금 이 사람 때문인지 과거에서 온 것인지 봅니다.<\/em><\/div><\/div>"}, {"t": "text", "id": "first", "label": "누군가 나를 위로할 때 내 안에서 가장 먼저 일어나는 반응", "hint": "", "rows": 4}, {"t": "checks", "id": "kind", "items": ["말", "안아 주기", "함께 있어 주기", "들어 주기", "잠시 혼자 두기", "구체적인 도움"], "label": "나에게 실제로 와닿았던 위로"}, {"t": "text", "id": "real", "label": "기억나는 위로 한 장면", "hint": "", "rows": 4}], "extra": true, "kicker": "더 알아보기 · 선택", "paper": 31, "en": "Receiving Comfort"}, {"key": "d_11/9", "group": "2주 차", "title": "11/9 (월) 과거의 내가 당시 가장 필요로 했던 것이 무엇인지 적기", "fields": [{"t": "note", "html": "과거의 나를 평가하지 않고, 그때 무엇이 필요했는지만 바라봅니다. 그때의 나는 그 상황에서 할 수 있는 만큼 했습니다.", "tone": "lav", "title": ""}, {"t": "h", "text": "떠오르는 것이 있다면 체크"}, {"t": "checks", "id": "needs", "items": ["보호받는 것", "내 편이 있는 것", "이해받는 것", "쉬는 것", "도움을 요청할 수 있는 것", "믿을 수 있는 어른"], "label": ""}, {"t": "text", "id": "age", "label": "그때의 나는 몇 살쯤, 어떤 시기였나요? (선택)", "hint": "", "rows": 1}, {"t": "text", "id": "need", "label": "그때의 내가 가장 필요로 했던 것", "hint": "", "rows": 4}, {"t": "text", "id": "way", "label": "그것을 지금의 내가 조금이라도 채워 줄 수 있는 방법", "hint": "", "rows": 3}], "special": "day", "md": "11/9", "no": 8, "wd": "월", "kind": "core", "mins": "20분", "task": "과거의 내가 당시 가장 필요로 했던 것이 무엇인지 적기", "iso": "2026-11-09", "paper": 32, "paperj": 33, "en": "Recovery Task"}, {"key": "d_11/10", "group": "2주 차", "title": "11/10 (화) 그때 받지 못했던 말 3가지 적기", "fields": [{"t": "note", "html": "예: \"네 잘못이 아니야.\" \"그때 많이 무서웠겠다.\" \"내가 네 편이야.\"", "tone": "cream", "title": "참고"}, {"t": "list", "id": "l", "n": 3, "prefix": "그때 듣고 싶었던 말 :", "hint": "", "rows": 2}], "special": "day", "md": "11/10", "no": 9, "wd": "화", "kind": "short", "mins": "10분", "task": "그때 받지 못했던 말 3가지 적기", "iso": "2026-11-10", "paper": 34, "paperj": 35, "en": "Recovery Task"}, {"key": "d_11/11", "group": "2주 차", "title": "11/11 (수) 가능하다면 트라우마 경험을 다루는 상담사와 첫 상담", "fields": [{"t": "note", "html": "상담 전 <a class=\"go\" data-go=\"counsel\">첫 상담 안내<\/a>를 먼저 읽어 보세요. 첫 상담에서 모든 이야기를 할 필요는 없습니다.", "tone": "lav", "title": ""}, {"t": "h", "text": "오늘의 상황"}, {"t": "checks", "id": "st", "items": ["상담을 다녀왔다", "상담을 예약했다", "이번에는 어렵다 (괜찮습니다)"], "label": ""}, {"t": "h", "text": "오늘 꺼내고 싶은 주제"}, {"t": "checks", "id": "topic", "items": ["현재 관계에서 나타나는 불안", "과거의 기억이 떠오르는 순간", "감정 조절"], "label": ""}, {"t": "text", "id": "memo", "label": "상담 전 메모 — 꼭 말하고 싶은 것 / 묻고 싶은 것", "hint": "", "rows": 3}, {"t": "text", "id": "after", "label": "상담 직후 한 줄 (자세한 기록은 내일)", "hint": "", "rows": 2}], "special": "day", "md": "11/11", "no": 10, "wd": "수", "kind": "core", "mins": "50분 내외", "task": "가능하다면 트라우마 경험을 다루는 상담사와 첫 상담", "iso": "2026-11-11", "paper": 36, "paperj": 37, "en": "Recovery Task"}, {"key": "d_11/12", "group": "2주 차", "title": "11/12 (목) 상담 후 느낀 점이나 생각을 짧게 기록하기", "fields": [{"t": "text", "id": "a", "label": "상담 후 느낀 점이나 생각", "hint": "짧게 써도 충분합니다.", "rows": 3}, {"t": "text", "id": "b", "label": "상담을 하지 못했다면 — 이번 주 나에게 필요했던 도움은?", "hint": "", "rows": 3}, {"t": "text", "id": "c", "label": "다음 상담에서 이어가고 싶은 것 (선택)", "hint": "", "rows": 2}], "special": "day", "md": "11/12", "no": 11, "wd": "목", "kind": "short", "mins": "5분", "task": "상담 후 느낀 점이나 생각을 짧게 기록하기", "iso": "2026-11-12", "paper": 38, "paperj": 39, "en": "Recovery Task"}, {"key": "d_11/13", "group": "2주 차", "title": "11/13 (금) 회복 과제 없음", "fields": [{"t": "note", "html": "오늘은 회복 과제가 없는 날입니다. 쉬는 것도 회복의 일부입니다. 아무것도 쓰지 않아도 괜찮습니다.", "tone": "cream", "title": "쉬는 날"}, {"t": "h", "text": "오늘 내가 집중한 것 (선택)"}, {"t": "checks", "id": "focus", "items": ["취업 준비", "졸업작품", "학교 수업·과제", "그 밖의 일"], "label": ""}, {"t": "h", "text": "나를 위해 한 기본 돌봄 (선택)"}, {"t": "checks", "id": "care", "items": ["충분히 잤다", "식사를 챙겼다", "물을 마셨다", "잠깐 바깥 공기를 쐬었다", "휴대폰을 잠시 내려놓았다"], "label": ""}, {"t": "text", "id": "notice", "label": "쉬면서 알아챈 것 (선택)", "hint": "", "rows": 3}], "special": "day", "md": "11/13", "no": 12, "wd": "금", "kind": "rest", "mins": "휴식", "task": "회복 과제 없음", "iso": "2026-11-13", "paper": 40, "paperj": 41, "en": "Recovery Task"}, {"key": "d_11/14", "group": "2주 차", "title": "11/14 (토) 과거와 관련 없는 즐거운 일 하나 하기", "fields": [{"t": "note", "html": "선택 과제입니다. 과거와 관련 없는, 지금의 나를 위한 즐거운 일 하나.", "tone": "cream", "title": ""}, {"t": "text", "id": "a", "label": "오늘 한 즐거운 일", "hint": "", "rows": 2}, {"t": "text", "id": "b", "label": "그때의 내 기분 한 줄", "hint": "", "rows": 2}], "special": "day", "md": "11/14", "no": 13, "wd": "토", "kind": "optional", "mins": "선택", "task": "과거와 관련 없는 즐거운 일 하나 하기", "iso": "2026-11-14", "paper": 42, "paperj": 43, "en": "Recovery Task"}, {"key": "d_11/15", "group": "2주 차", "title": "11/15 (일) 과거의 나에게 편지 쓰기. '네 잘못이 아니었어'로 시작하기", "fields": [{"t": "note", "html": "편지가 길 필요는 없습니다. 쓰다가 힘들면 그 자리에서 마쳐도 완성된 편지입니다.", "tone": "cream", "title": ""}, {"t": "letter", "id": "letter", "open": "네 잘못이 아니었어.", "rows": 16}, {"t": "scorelink", "label": "2주 차"}], "special": "day", "md": "11/15", "no": 14, "wd": "일", "kind": "review", "mins": "15분", "task": "과거의 나에게 편지 쓰기. '네 잘못이 아니었어'로 시작하기", "iso": "2026-11-15", "paper": 44, "paperj": 45, "en": "Recovery Task"}, {"key": "wi_w3", "group": "3주 차", "title": "3주 차 시작", "fields": [], "special": "week", "week": "w3", "theme": "과거와 현재를 분리하기", "goal": "최악을 상상하는 습관을 사실 확인과 건강한 대응으로 바꾸기.", "range": "11/16 – 11/22", "extra": "", "paper": 46, "more": [{"key": "x_reappraisal", "title": "다른 해석 떠올리기 · 나를 건드리는 신호"}, {"key": "x_mindful", "title": "기억을 손님처럼 대하기"}], "en": "Week Three"}, {"key": "anxiety", "group": "3주 차", "title": "불안할 때 사용할 문장", "fields": [{"t": "html", "html": "<div class=\"sents\"><div class=\"sent\">아직 일어나지 않은 일은 사실이 아니다.<\/div><div class=\"sent\">상대방의 행동이 나의 가치를 결정하지 않는다.<\/div><div class=\"sent\">불안하다고 해서 당장 확인해야 하는 것은 아니다.<\/div><div class=\"sent\">과거에 나를 아프게 했던 사람이 지금의 모든 사람을 대표하지 않는다.<\/div><div class=\"sent\">나는 의지할 수 있지만, 나 자신을 잃을 필요는 없다.<\/div><\/div>"}, {"t": "note", "html": "이 문장들은 <b>현재의 실제 위험 신호를 무시하라는 뜻이 아닙니다.<\/b> 약속을 반복해서 어기거나 거짓말이 확인되었다면, 그것은 과거의 그림자가 아니라 <b>현재의 문제<\/b>입니다. 불안을 가라앉힌 뒤, 사실을 근거로 대화하거나 경계를 세워 다룹니다.", "tone": "warn", "title": "중요"}, {"t": "html", "html": "<table class=\"tbl cmp\"><tr><th><\/th><th>과거가 겹쳐 보이는 불안<\/th><th>현재의 실제 문제<\/th><\/tr>\n      <tr><td><b>근거<\/b><\/td><td>추측·예감 (\"분명 떠날 거야\")<\/td><td>확인된 사실 (반복된 약속 위반, 드러난 거짓말)<\/td><\/tr>\n      <tr><td><b>예<\/b><\/td><td>답장이 몇 시간 늦다<\/td><td>약속을 여러 번 어기고 사과·변화가 없다<\/td><\/tr>\n      <tr><td><b>다루는 법<\/b><\/td><td>문장 읽기 → 10분 보류 → 사실 확인<\/td><td>진정한 뒤 사실을 말하고, 필요한 경계를 세운다<\/td><\/tr><\/table>"}, {"t": "text", "id": "q", "label": "구분이 어려울 때 스스로에게 물을 질문: 확인된 사실인가? 반복되었나? 지금 증거가 있나?", "hint": "", "rows": 2}], "paper": 47, "en": "Words for Anxious Moments"}, {"key": "x_reappraisal", "group": "3주 차", "title": "다른 해석 떠올리기 · 나를 건드리는 신호", "fields": [{"t": "html", "html": "<p class=\"intro\">마음은 위험했던 경험과 비슷한 신호(말투, 침묵, 표정)가 오면 그때와 같은 경보를 울립니다. 고장이 아니라 보호 장치입니다. 목표는 경보를 끄는 것이 아니라, 울릴 때 <b>\"이건 과거에서 온 신호일 수 있다\"<\/b>고 알아차리는 것입니다.<\/p>"}, {"t": "html", "html": "<div class=\"concept\"><div class=\"cc-h\">심리학에서 빌려온 생각 · <b>인지적 재평가<\/b> <small>Cognitive Reappraisal<\/small><\/div><div class=\"cc-r\"><b>개념<\/b><span>상황을 부정하거나 억지로 긍정하는 것이 아니라, 지금 가진 정보로 가능한 다른 해석을 함께 떠올려 감정의 강도를 낮추는 방법입니다.<\/span><\/div><div class=\"cc-r\"><b>일상에서<\/b><span>메시지를 읽고 답이 없다 → '나를 피하나' 말고도 '바쁜 중에 읽었다', '답을 고민 중이다', '깜빡했다'가 가능합니다.<\/span><\/div><div class=\"cc-r\"><b>나에게 적용<\/b><span>세 가지를 묻습니다. 확실히 아는 사실은? 다른 해석 두 가지는? 이 해석은 지금 이 사람에 대한 것인가, 예전의 누군가에 대한 것인가?<\/span><\/div><\/div>"}, {"t": "text", "id": "trig", "label": "요즘 과거의 감정이 올라오는 상황 (나를 건드리는 신호)", "hint": "예: 상대가 말없이 자리를 뜰 때, 밤에 혼자 있을 때, 특정한 말을 들을 때.", "rows": 4}, {"t": "text", "id": "body", "label": "그 순간 몸에서 먼저 느껴지는 것 / 마음속에 떠오르는 말", "hint": "", "rows": 4}, {"t": "text", "id": "first", "label": "그 상황이 다시 오면 가장 먼저 할 작은 행동 하나", "hint": "예: 숨을 길게 내쉰다, '지금은 2026년이고 나는 안전하다'고 속으로 말한다, 자리를 잠시 옮긴다.", "rows": 3}], "extra": true, "kicker": "더 알아보기 · 선택", "paper": 48, "en": "Another Way to See"}, {"key": "x_mindful", "group": "3주 차", "title": "기억을 손님처럼 대하기", "fields": [{"t": "html", "html": "<p class=\"intro\">기억을 지우려 애쓸수록 기억은 더 자주 찾아옵니다. 그래서 잊으려 하지 않고, 찾아온 기억을 <b>손님처럼<\/b> 대하는 연습을 합니다. 문은 열어 주되 집 전체를 내어 주지는 않는 것입니다.<\/p>"}, {"t": "html", "html": "<div class=\"concept\"><div class=\"cc-h\">심리학에서 빌려온 생각 · <b>마음챙김<\/b> <small>Mindfulness<\/small><\/div><div class=\"cc-r\"><b>개념<\/b><span>지금 이 순간의 생각·감정·몸의 감각을 판단하지 않고 알아차리는 연습입니다. 바꾸려 하지 않고 '지금 이런 게 있구나' 하고 봅니다.<\/span><\/div><div class=\"cc-r\"><b>일상에서<\/b><span>설거지 중 예전 장면이 떠오르면 밀어내는 대신 '그 기억이 왔구나' 하고, 손에 닿는 물의 온도로 주의를 옮깁니다.<\/span><\/div><div class=\"cc-r\"><b>나에게 적용<\/b><span>\"지금 기억이 떠올랐다. 이것은 기억이지, 지금 일어나는 일이 아니다.\" 그리고 발바닥이나 숨 같은 지금의 감각 하나에 머뭅니다.<\/span><\/div><\/div>"}, {"t": "checks", "id": "usual", "items": ["밀어낸다", "빠져든다", "다른 일로 덮는다", "누군가에게 말한다", "잘 모르겠다"], "label": "기억이 찾아올 때 나는 보통"}, {"t": "text", "id": "guest", "label": "손님처럼 대한다면 — 나에게 할 말과 주의를 둘 감각", "hint": "", "rows": 4}, {"t": "text", "id": "back", "label": "기억이 지나간 뒤, 오늘의 삶으로 돌아오기 위한 작은 일 하나", "hint": "", "rows": 3}], "extra": true, "kicker": "더 알아보기 · 선택", "paper": 49, "en": "Memory as a Guest"}, {"key": "d_11/16", "group": "3주 차", "title": "11/16 (월) 과거에 반복됐던 상황과 현재 상황의 차이 5가지 찾기", "fields": [{"t": "note", "html": "과거와 지금이 닮아 보여도, 사람·상황·나 자신은 달라졌습니다. 그 차이를 구체적으로 찾아봅니다.", "tone": "lav", "title": ""}, {"t": "table", "id": "tb", "headers": ["", "과거에 반복됐던 상황", "지금의 상황은 이렇게 다르다"], "rows": ["1", "2", "3", "4", "5"]}], "special": "day", "md": "11/16", "no": 15, "wd": "월", "kind": "core", "mins": "20분", "task": "과거에 반복됐던 상황과 현재 상황의 차이 5가지 찾기", "iso": "2026-11-16", "paper": 50, "paperj": 51, "en": "Recovery Task"}, {"key": "d_11/17", "group": "3주 차", "title": "11/17 (화) 불안할 때 사용할 문장 5개 만들기", "fields": [{"t": "note", "html": "<a class=\"go\" data-go=\"anxiety\">불안할 때 사용할 문장<\/a>의 예시를 참고해, <b>내 말투로<\/b> 다시 써 보세요. 소리 내어 읽었을 때 편한 문장이 좋습니다.", "tone": "lav", "title": ""}, {"t": "list", "id": "l", "n": 5, "prefix": "", "hint": "", "rows": 1}], "special": "day", "md": "11/17", "no": 16, "wd": "화", "kind": "short", "mins": "10분", "task": "불안할 때 사용할 문장 5개 만들기", "iso": "2026-11-17", "paper": 52, "paperj": 53, "en": "Recovery Task"}, {"key": "d_11/18", "group": "3주 차", "title": "11/18 (수) 상담 2회 차 또는 상담 예약 및 지난 기록 검토", "fields": [{"t": "h", "text": "오늘 한 것"}, {"t": "checks", "id": "did", "items": ["상담 2회 차", "상담 예약", "지난 기록 검토"], "label": ""}, {"t": "text", "id": "a", "label": "상담에서 다룬 것 / 예약한 날짜와 기관", "hint": "", "rows": 3}, {"t": "text", "id": "b", "label": "지난 기록(11/2~)을 다시 읽으며 눈에 띈 것", "hint": "자주 나온 감정, 반복된 상황, 조금 달라진 점", "rows": 3}], "special": "day", "md": "11/18", "no": 17, "wd": "수", "kind": "core", "mins": "30~50분", "task": "상담 2회 차 또는 상담 예약 및 지난 기록 검토", "iso": "2026-11-18", "paper": 54, "paperj": 55, "en": "Recovery Task"}, {"key": "d_11/19", "group": "3주 차", "title": "11/19 (목) 불안이 올라오면 10분간 행동을 보류하는 연습", "fields": [{"t": "steps", "items": ["불안이 올라온 것을 알아차린다 (몸의 반응 확인)", "하려던 행동을 이름 붙인다 (예: 연속 연락, 확인하기)", "타이머 10분 — 그동안 숨을 길게 내쉬고 불안 문장을 읽는다", "10분 뒤 다시 묻는다: 지금도 그 행동이 필요한가?"]}, {"t": "timer", "min": 10}, {"t": "table", "id": "tb", "headers": ["시각", "하고 싶었던 행동", "10분 뒤 내가 고른 행동"], "rows": ["", "", ""]}], "special": "day", "md": "11/19", "no": 18, "wd": "목", "kind": "short", "mins": "10분", "task": "불안이 올라오면 10분간 행동을 보류하는 연습", "iso": "2026-11-19", "paper": 56, "paperj": 57, "en": "Recovery Task"}, {"key": "d_11/20", "group": "3주 차", "title": "11/20 (금) 회복 과제 없음", "fields": [{"t": "note", "html": "오늘은 회복 과제가 없는 날입니다. 쉬는 것도 회복의 일부입니다. 아무것도 쓰지 않아도 괜찮습니다.", "tone": "cream", "title": "쉬는 날"}, {"t": "h", "text": "오늘 내가 집중한 것 (선택)"}, {"t": "checks", "id": "focus", "items": ["취업 준비", "졸업작품", "학교 수업·과제", "그 밖의 일"], "label": ""}, {"t": "h", "text": "나를 위해 한 기본 돌봄 (선택)"}, {"t": "checks", "id": "care", "items": ["충분히 잤다", "식사를 챙겼다", "물을 마셨다", "잠깐 바깥 공기를 쐬었다", "휴대폰을 잠시 내려놓았다"], "label": ""}, {"t": "text", "id": "notice", "label": "쉬면서 알아챈 것 (선택)", "hint": "", "rows": 3}], "special": "day", "md": "11/20", "no": 19, "wd": "금", "kind": "rest", "mins": "휴식", "task": "회복 과제 없음", "iso": "2026-11-20", "paper": 58, "paperj": 59, "en": "Recovery Task"}, {"key": "d_11/21", "group": "3주 차", "title": "11/21 (토) 혼자서도 즐거운 활동 하나 하기", "fields": [{"t": "note", "html": "선택 과제입니다. 누군가와 함께가 아니어도 즐거운 일 하나.", "tone": "cream", "title": ""}, {"t": "text", "id": "a", "label": "오늘 혼자 한 즐거운 활동", "hint": "", "rows": 2}, {"t": "text", "id": "b", "label": "혼자였을 때의 기분", "hint": "", "rows": 2}], "special": "day", "md": "11/21", "no": 20, "wd": "토", "kind": "optional", "mins": "선택", "task": "혼자서도 즐거운 활동 하나 하기", "iso": "2026-11-21", "paper": 60, "paperj": 61, "en": "Recovery Task"}, {"key": "d_11/22", "group": "3주 차", "title": "11/22 (일) 이번 주 불안했던 순간 하나를 골라 사실·해석·대응으로 정리하기", "fields": [{"t": "note", "html": "<a class=\"go\" data-go=\"fact\">사실과 해석 예시<\/a>처럼 네 칸으로 나눠 봅니다.", "tone": "lav", "title": ""}, {"t": "fact", "id": "f", "title": "이번 주 불안했던 순간"}, {"t": "scorelink", "label": "3주 차"}], "special": "day", "md": "11/22", "no": 21, "wd": "일", "kind": "review", "mins": "10분", "task": "이번 주 불안했던 순간 하나를 골라 사실·해석·대응으로 정리하기", "iso": "2026-11-22", "paper": 62, "paperj": 63, "en": "Recovery Task"}, {"key": "wi_w4", "group": "4주 차", "title": "4주 차 시작", "fields": [], "special": "week", "week": "w4", "theme": "감정을 건강하게 표현하기", "goal": "감정이 격해져도 상대에게 해를 끼치지 않는 방법 익히기.", "range": "11/23 – 11/29", "extra": "이번 주 과제는 <a class=\"go\" data-go=\"safety\">감정이 격해졌을 때의 5단계 안전 계획<\/a>과 연결됩니다. 이번 주 동안 수시로 펼쳐 보세요.", "paper": 64, "more": [{"key": "x_pause", "title": "멈춤 3단계와 분노 아래의 감정"}, {"key": "x_ask", "title": "위로를 요청하고, 갈등을 지나가는 법"}], "en": "Week Four"}, {"key": "x_pause", "group": "4주 차", "title": "멈춤 3단계와 분노 아래의 감정", "fields": [{"t": "html", "html": "<p class=\"intro\">감정이 어느 선을 넘으면 생각하는 뇌는 물러나고 몸의 경보가 앞에 섭니다. 그래서 그 순간에는 잘 다루려 하기보다 <b>먼저 멈추고 거리를 두는 것<\/b>이 나와 상대를 지키는 방법입니다. 안전 계획과 함께 보세요.<\/p>"}, {"t": "html", "html": "<div class=\"xsteps\"><div><span>1<\/span><b>알아차리기<\/b><em>심장이 빨라짐, 목소리가 커짐, 손에 힘이 들어감, 시야가 좁아짐, 말이 빨라짐 — 둘 이상이면 멈춤 신호.<\/em><\/div><div><span>2<\/span><b>말하고 떨어지기<\/b><em>돌아올 시간을 함께 말하고 실제로 자리를 옮깁니다. 다른 방, 복도, 집 밖.<\/em><\/div><div><span>3<\/span><b>몸 가라앉히기<\/b><em>길게 내쉬기, 찬물로 손·얼굴 씻기, 걷기. 생각보다 몸이 먼저이며, 보통 20분 이상 걸립니다.<\/em><\/div><\/div>"}, {"t": "note", "html": "분노는 나쁜 감정이 아니라 '경계가 침범되었다'는 신호입니다. 문제는 분노가 곧바로 행동이 될 때입니다. 분노 아래의 감정을 찾고, <b>화가 났을 때 보내는 메시지와 결정은 최소 몇 시간, 가능하면 하룻밤 미루는 시간 규칙<\/b>을 정해 둡니다. \"이렇게 하고 나면 한 시간 뒤의 나는 어떤 기분일까?\"", "tone": "cream", "title": ""}, {"t": "checks", "id": "under", "items": ["상처", "두려움", "수치심", "무력감", "외로움", "억울함", "서운함"], "label": "내 분노가 주로 덮고 있는 감정"}, {"t": "text", "id": "rule", "label": "나의 시간 규칙", "hint": "예: 화가 나면 메시지는 써 두기만 하고 다음 날 아침에 다시 읽는다.", "rows": 3}, {"t": "text", "id": "calm", "label": "자리를 옮긴 뒤 몸을 가라앉힐 세 가지 (미리 정해 두면 그 순간 생각하지 않아도 됩니다)", "hint": "", "rows": 4}], "extra": true, "kicker": "더 알아보기 · 선택", "paper": 65, "en": "Pause & Anger"}, {"key": "x_ask", "group": "4주 차", "title": "위로를 요청하고, 갈등을 지나가는 법", "fields": [{"t": "html", "html": "<p class=\"intro\">위로를 요청하는 것은 약함이 아니라 상대에게 <b>어떻게 하면 되는지 알려 주는 친절<\/b>입니다. 그리고 갈등이 없는 관계보다 갈등을 지나갈 수 있는 관계가 건강합니다.<\/p>"}, {"t": "html", "html": "<table class=\"tbl cmp\"><tr><th>위로 요청의 네 조각<\/th><th>예<\/th><\/tr><tr><td>상태 — 비난이 아니라 지금의 나<\/td><td>\"나 오늘 좀 불안한 날이야.\"<\/td><\/tr><tr><td>원인 (선택) — 과거를 설명할 필요는 없음<\/td><td>\"네 탓은 아니야.\"<\/td><\/tr><tr><td>원하는 것<\/td><td>\"그냥 '괜찮아'라고 한마디 해 주면 좋겠어.\"<\/td><\/tr><tr><td>여지 — 상대에게도 선택권<\/td><td>\"지금 바쁘면 이따가 해 줘도 돼.\"<\/td><\/tr><\/table>"}, {"t": "note", "html": "<b>갈등 대화의 틀<\/b> · 부드럽게 시작하기(\"너는 항상\" 대신 \"나는 아까 ~했을 때 ~했어\") · 지금의 일 하나만 · \"네 말은 ~라는 거지?\"로 되돌려 확인하기 · 멈춤 신호가 오면 멈추고 돌아올 시간 정하기 · 결론이 없어도 \"이야기해 줘서 고마워\"로 끝내기", "tone": "lav", "title": ""}, {"t": "text", "id": "req", "label": "나의 위로 요청 문장 (네 조각으로, 내 말투로)", "hint": "", "rows": 4}, {"t": "text", "id": "check", "label": "해석을 '확인하는 말'로 바꿔 보기", "hint": "틀: \"네가 ___ 하니까, 나는 ___ 라고 생각돼서 ___ 해져. 맞아?\"", "rows": 4}, {"t": "text", "id": "diff", "label": "최근 갈등에서 다음에는 다르게 하고 싶은 말이나 행동", "hint": "", "rows": 3}], "extra": true, "kicker": "더 알아보기 · 선택", "paper": 66, "en": "Asking & Repair"}, {"key": "d_11/23", "group": "4주 차", "title": "11/23 (월) 화가 났을 때 내가 보이는 행동과 그 전조 증상 적기", "fields": [{"t": "note", "html": "이 기록은 나를 탓하기 위한 것이 아니라, <a class=\"go\" data-go=\"safety\">안전 계획<\/a>을 내게 맞게 만들기 위한 재료입니다.", "tone": "lav", "title": ""}, {"t": "table", "id": "tb", "headers": ["", "몸", "생각", "행동"], "rows": ["전조 증상 (화가 나기 직전)", "화가 났을 때 내가 보이는 행동"]}, {"t": "text", "id": "first", "label": "가장 먼저 알아챌 수 있는 신호 하나", "hint": "", "rows": 2}], "special": "day", "md": "11/23", "no": 22, "wd": "월", "kind": "core", "mins": "20분", "task": "화가 났을 때 내가 보이는 행동과 그 전조 증상 적기", "iso": "2026-11-23", "paper": 68, "paperj": 69, "en": "Recovery Task"}, {"key": "d_11/24", "group": "4주 차", "title": "11/24 (화) 감정이 올라왔을 때 사용할 대화 중단 문장 만들기", "fields": [{"t": "note", "html": "기본 문장: \"지금은 감정이 너무 격해져서 대화할 수 없어. 진정한 뒤 이야기하자.\"", "tone": "cream", "title": "안전 계획 3단계 문장"}, {"t": "list", "id": "l", "n": 3, "prefix": "내 말로 바꾼 대화 중단 문장 :", "hint": "", "rows": 2}, {"t": "text", "id": "when", "label": "언제 다시 이야기할지 정하는 한 줄 (예: 30분 뒤 내가 먼저 연락할게)", "hint": "", "rows": 2}], "special": "day", "md": "11/24", "no": 23, "wd": "화", "kind": "short", "mins": "10분", "task": "감정이 올라왔을 때 사용할 대화 중단 문장 만들기", "iso": "2026-11-24", "paper": 70, "paperj": 71, "en": "Recovery Task"}, {"key": "d_11/25", "group": "4주 차", "title": "11/25 (수) 상담 3회 차 또는 감정 조절·분노 관리 상담", "fields": [{"t": "h", "text": "오늘 한 것"}, {"t": "checks", "id": "did", "items": ["상담 3회 차", "감정 조절·분노 관리 상담", "이번에는 어렵다 (괜찮습니다)"], "label": ""}, {"t": "text", "id": "a", "label": "상담에서 가져가고 싶은 것 (11/23 기록을 함께 보여 주어도 좋습니다)", "hint": "", "rows": 3}, {"t": "text", "id": "b", "label": "상담 후 안전 계획에 더하거나 바꿀 것", "hint": "", "rows": 3}], "special": "day", "md": "11/25", "no": 24, "wd": "수", "kind": "core", "mins": "30~50분", "task": "상담 3회 차 또는 감정 조절·분노 관리 상담", "iso": "2026-11-25", "paper": 72, "paperj": 73, "en": "Recovery Task"}, {"key": "d_11/26", "group": "4주 차", "title": "11/26 (목) 서운함을 비난 없이 표현하는 문장 3개 작성", "fields": [{"t": "html", "html": "<table class=\"tbl cmp\"><tr><th>비난하는 말<\/th><th>서운함을 표현하는 말<\/th><\/tr><tr><td>\"넌 항상 연락을 안 해.\"<\/td><td>\"오늘 연락이 없어서 나는 불안하고 서운했어. 늦을 땐 한 줄만 보내 주면 좋겠어.\"<\/td><\/tr><\/table>"}, {"t": "note", "html": "틀: <b>나는<\/b> (상황)<b>일 때<\/b> (감정)<b>했어.<\/b> <b>나는<\/b> (바람)<b>이 필요해 / ~해 주면 좋겠어.<\/b>", "tone": "lav", "title": ""}, {"t": "list", "id": "l", "n": 3, "prefix": "", "hint": "", "rows": 2}], "special": "day", "md": "11/26", "no": 25, "wd": "목", "kind": "short", "mins": "10분", "task": "서운함을 비난 없이 표현하는 문장 3개 작성", "iso": "2026-11-26", "paper": 74, "paperj": 75, "en": "Recovery Task"}, {"key": "d_11/27", "group": "4주 차", "title": "11/27 (금) 회복 과제 없음", "fields": [{"t": "note", "html": "오늘은 회복 과제가 없는 날입니다. 쉬는 것도 회복의 일부입니다. 아무것도 쓰지 않아도 괜찮습니다.", "tone": "cream", "title": "쉬는 날"}, {"t": "h", "text": "오늘 내가 집중한 것 (선택)"}, {"t": "checks", "id": "focus", "items": ["취업 준비", "졸업작품", "학교 수업·과제", "그 밖의 일"], "label": ""}, {"t": "h", "text": "나를 위해 한 기본 돌봄 (선택)"}, {"t": "checks", "id": "care", "items": ["충분히 잤다", "식사를 챙겼다", "물을 마셨다", "잠깐 바깥 공기를 쐬었다", "휴대폰을 잠시 내려놓았다"], "label": ""}, {"t": "text", "id": "notice", "label": "쉬면서 알아챈 것 (선택)", "hint": "", "rows": 3}], "special": "day", "md": "11/27", "no": 26, "wd": "금", "kind": "rest", "mins": "휴식", "task": "회복 과제 없음", "iso": "2026-11-27", "paper": 76, "paperj": 77, "en": "Recovery Task"}, {"key": "d_11/28", "group": "4주 차", "title": "11/28 (토) 다른 사람과 가벼운 만남이나 취미 활동", "fields": [{"t": "note", "html": "선택 과제입니다. 부담 없는 짧은 만남이나 취미 활동이면 충분합니다.", "tone": "cream", "title": ""}, {"t": "checks", "id": "pick", "items": ["친구·지인과 만남", "모임·동아리", "취미 활동", "오늘은 쉬기"], "label": ""}, {"t": "text", "id": "a", "label": "누구와 / 무엇을", "hint": "", "rows": 2}, {"t": "text", "id": "b", "label": "느낀 점 한 줄", "hint": "", "rows": 2}], "special": "day", "md": "11/28", "no": 27, "wd": "토", "kind": "optional", "mins": "선택", "task": "다른 사람과 가벼운 만남이나 취미 활동", "iso": "2026-11-28", "paper": 78, "paperj": 79, "en": "Recovery Task"}, {"key": "d_11/29", "group": "4주 차", "title": "11/29 (일) 내가 건강하게 표현했던 순간과 그렇지 못했던 순간 돌아보기", "fields": [{"t": "table", "id": "tb", "headers": ["", "건강하게 표현했던 순간", "그렇지 못했던 순간"], "rows": ["상황", "내가 한 말·행동", "다음에 해볼 것"]}, {"t": "scorelink", "label": "4주 차"}], "special": "day", "md": "11/29", "no": 28, "wd": "일", "kind": "review", "mins": "10분", "task": "내가 건강하게 표현했던 순간과 그렇지 못했던 순간 돌아보기", "iso": "2026-11-29", "paper": 80, "paperj": 81, "en": "Recovery Task"}, {"key": "wi_w5", "group": "5주 차", "title": "5주 차 시작", "fields": [], "special": "week", "week": "w5", "theme": "나를 나의 안전기지로 만들기", "goal": "누군가에게 기대지 않아도 나의 일상을 안정적으로 유지하기.", "range": "11/30 – 12/6", "extra": "", "paper": 82, "more": [{"key": "x_base", "title": "사랑과 의존, 기대와 필요"}, {"key": "x_hardday", "title": "힘든 날 계획과 나의 증거 목록"}, {"key": "x_trust", "title": "신뢰, 상대의 영역, 나의 경계"}], "en": "Week Five"}, {"key": "areas", "group": "5주 차", "title": "나의 삶의 영역", "fields": [{"t": "areas", "id": "ar", "areas": ["취업 준비", "졸업작품", "취미와 만년필", "친구와 사회생활", "휴식", "관계"]}, {"t": "h", "text": "내 마음의 100칸"}, {"t": "note", "html": "요즘 내 생각과 시간이 어디에 쓰이는지 칸을 눌러 칠해 보세요. 누를 때마다 영역이 바뀝니다(1칸 = 1%).", "tone": "cream", "title": ""}, {"t": "grid100", "id": "grid", "areas": ["취업 준비", "졸업작품", "취미와 만년필", "친구와 사회생활", "휴식", "관계"]}, {"t": "text", "id": "sig", "label": "한 관계가 다른 영역을 많이 차지할 때 나타나는 신호", "hint": "", "rows": 3}, {"t": "text", "id": "hold", "label": "다른 영역이 나를 지탱해 준 순간", "hint": "", "rows": 3}], "paper": 83, "en": "Areas of My Life"}, {"key": "x_base", "group": "5주 차", "title": "사랑과 의존, 기대와 필요", "fields": [{"t": "html", "html": "<p class=\"intro\">기대는 것은 사랑의 일부입니다. 의존은 기대는 것 자체가 아니라, 그 사람이 없으면 내가 서 있을 수 없고 그 사람의 기분이 곧 나의 기분이 될 때 시작됩니다.<\/p>"}, {"t": "html", "html": "<div class=\"concept\"><div class=\"cc-h\">심리학에서 빌려온 생각 · <b>애착과 정서적 안전감<\/b> <small>Attachment & Felt Security<\/small><\/div><div class=\"cc-r\"><b>개념<\/b><span>'필요할 때 곁에 있어 줄 것'이라는 믿음이 흔들리면 상대를 계속 확인하거나(불안 경향) 가까워지지 않으려(회피 경향) 할 수 있습니다. 고정된 성격이 아니라, 안전한 경험이 쌓이면 달라질 수 있는 것으로 봅니다.<\/span><\/div><div class=\"cc-r\"><b>일상에서<\/b><span>상대가 친구와 약속이 있다고 할 때 — '나를 두고 가는구나'(불안), '어차피 혼자가 편해'(회피), '잘 다녀와, 나는 내 시간을 보내야지'(안전감).<\/span><\/div><div class=\"cc-r\"><b>나에게 적용<\/b><span>안전감을 상대에게서만 받으려 하지 않고, 친구·일상·자기돌봄으로 나의 기지를 넓혀 갑니다.<\/span><\/div><\/div>"}, {"t": "text", "id": "absent", "label": "상대가 없을 때(연락이 없거나 바쁠 때) 나는 어떤 상태가 되나요?", "hint": "", "rows": 3}, {"t": "table", "id": "need", "headers": ["내가 상대에게 바라는 행동", "그 아래에 있는 나의 진짜 필요"], "rows": ["", ""]}, {"t": "text", "id": "ways", "label": "그 필요를 상대의 행동 말고 채울 수 있는 방법 세 가지", "hint": "작아도 좋습니다. 예: 안심 → 친구에게 말하기, 산책, 이 워크북에 적기.", "rows": 4}], "extra": true, "kicker": "더 알아보기 · 선택", "paper": 84, "en": "Love & Dependence"}, {"key": "x_hardday", "group": "5주 차", "title": "힘든 날 계획과 나의 증거 목록", "fields": [{"t": "html", "html": "<p class=\"intro\">힘든 날에 필요한 것은 원인을 파헤치는 것이 아니라 <b>그날을 안전하게 지나가는 것<\/b>입니다. 미리 적어 두면, 아무것도 생각나지 않는 날 이 페이지만 열면 됩니다.<\/p>"}, {"t": "html", "html": "<div class=\"concept\"><div class=\"cc-h\">심리학에서 빌려온 생각 · <b>자기효능감<\/b> <small>Self-Efficacy · 앨버트 반두라<\/small><\/div><div class=\"cc-r\"><b>개념<\/b><span>'나는 이 상황을 다룰 수 있다'는 믿음. 큰 성공보다 작게 해낸 경험이 반복될 때 가장 강하게 자랍니다.<\/span><\/div><div class=\"cc-r\"><b>일상에서<\/b><span>불안할 때 연락을 연달아 보내는 대신 산책을 다녀온 뒤 메시지를 보냈다면, 결과와 상관없이 '이번엔 다르게 했다'는 증거가 남습니다.<\/span><\/div><div class=\"cc-r\"><b>나에게 적용<\/b><span>감정은 '넌 못 해'라고 말하지만, 기록은 '너는 이미 해 봤어'라고 말해 줍니다.<\/span><\/div><\/div>"}, {"t": "text", "id": "min", "label": "힘든 날 최소한으로 할 것 (먹기, 씻기, 잠 같은 기본)", "hint": "", "rows": 3}, {"t": "text", "id": "not", "label": "힘든 날 하지 않기로 미리 정해 두는 것", "hint": "예: 중요한 결정, 밤늦게 긴 메시지 보내기, 지난 대화 다시 읽기, 술 마시고 연락하기.", "rows": 3}, {"t": "text", "id": "call", "label": "연락할 사람과 '이렇게 말하면 된다'는 문장", "hint": "예: \"오늘 좀 힘든 날이야. 해결해 달라는 건 아니고, 그냥 말하고 싶었어.\"", "rows": 3}, {"t": "list", "id": "proof", "n": 4, "prefix": "내가 감정을 다뤄 낸 작은 순간 :", "hint": "", "rows": 2}], "extra": true, "kicker": "더 알아보기 · 선택", "paper": 85, "en": "Hard Day Plan"}, {"key": "x_trust", "group": "5주 차", "title": "신뢰, 상대의 영역, 나의 경계", "fields": [{"t": "html", "html": "<p class=\"intro\">신뢰는 결심으로 생기지 않고 <b>작게 믿어 보고 결과를 보는 경험<\/b>이 쌓이며 생깁니다. 한 번의 실망은 패턴이 아니고, 반복되는 실망이 패턴입니다. 이 페이지는 지금의 관계에도, 앞으로의 관계에도 쓸 수 있습니다.<\/p>"}, {"t": "html", "html": "<table class=\"tbl cmp\"><tr><th>상대의 영역 존중하기<\/th><th>나의 경계 말하기<\/th><\/tr><tr><td>휴대폰·메시지·계정을 허락 없이 보지 않는다<\/td><td>경계는 벽이 아니라 문 — 안전하게 가까워지기 위한 선<\/td><\/tr><tr><td>상대가 혼자 있고 싶어 하는 것을 거절로 읽지 않는다<\/td><td>틀: \"나는 ___ 할 때 ___ 해져서, ___ 해 줬으면 좋겠어.\"<\/td><\/tr><tr><td>상대의 친구·가족·취미를 경쟁자로 두지 않는다<\/td><td>비난이 아니라 나의 상태와 요청으로 말한다<\/td><\/tr><\/table>"}, {"t": "text", "id": "small", "label": "작게 믿어 볼 수 있는 것 하나", "hint": "예: 이번에는 확인 메시지를 보내지 않고 기다려 본다.", "rows": 3}, {"t": "text", "id": "good", "label": "상대가 보여 준 믿을 만한 행동들 (불안한 날 다시 읽기 위해)", "hint": "", "rows": 4}, {"t": "text", "id": "urge", "label": "상대의 영역을 침범하고 싶어지는 순간 — 그때의 감정과, 대신 할 수 있는 것", "hint": "", "rows": 4}, {"t": "text", "id": "mine", "label": "아직 말하지 못한 나의 경계 하나 (위의 틀로)", "hint": "", "rows": 3}], "extra": true, "kicker": "더 알아보기 · 선택", "paper": 86, "en": "Trust & Boundaries"}, {"key": "d_11/30", "group": "5주 차", "title": "11/30 (월) 나를 안정시키는 활동 10가지 목록 만들기", "fields": [{"t": "note", "html": "거창하지 않아도 됩니다. 만년필로 글씨 쓰기, 따뜻한 차, 좋아하는 노래 한 곡처럼 작은 것일수록 자주 쓸 수 있습니다.", "tone": "lav", "title": ""}, {"t": "acts", "id": "acts", "n": 10}], "special": "day", "md": "11/30", "no": 29, "wd": "월", "kind": "core", "mins": "20분", "task": "나를 안정시키는 활동 10가지 목록 만들기", "iso": "2026-11-30", "paper": 88, "paperj": 89, "en": "Recovery Task"}, {"key": "d_12/1", "group": "5주 차", "title": "12/1 (화) 연락이 오지 않을 때 할 행동 3가지 정하기", "fields": [{"t": "note", "html": "먼저 읽을 문장: \"불안하다고 해서 당장 확인해야 하는 것은 아니다.\"", "tone": "cream", "title": ""}, {"t": "list", "id": "l", "n": 3, "prefix": "연락이 오지 않을 때 내가 할 행동 :", "hint": "11/30의 안정 활동 목록에서 골라도 좋습니다.", "rows": 2}, {"t": "text", "id": "msg", "label": "그래도 확인이 필요하다면 — 차분하게 보낼 한 문장", "hint": "", "rows": 2}], "special": "day", "md": "12/1", "no": 30, "wd": "화", "kind": "short", "mins": "10분", "task": "연락이 오지 않을 때 할 행동 3가지 정하기", "iso": "2026-12-01", "paper": 90, "paperj": 91, "en": "Recovery Task"}, {"key": "d_12/2", "group": "5주 차", "title": "12/2 (수) 상담 4회 차 또는 지금까지의 변화 점검", "fields": [{"t": "h", "text": "오늘 한 것"}, {"t": "checks", "id": "did", "items": ["상담 4회 차", "혼자서 변화 점검"], "label": ""}, {"t": "table", "id": "tb", "headers": ["", "11월 초", "지금"], "rows": ["불안할 때 나는", "화가 날 때 나는", "혼자 있을 때 나는"]}, {"t": "text", "id": "focus", "label": "남은 열흘 동안 집중하고 싶은 것 하나", "hint": "", "rows": 2}], "special": "day", "md": "12/2", "no": 31, "wd": "수", "kind": "core", "mins": "30~50분", "task": "상담 4회 차 또는 지금까지의 변화 점검", "iso": "2026-12-02", "paper": 92, "paperj": 93, "en": "Recovery Task"}, {"key": "d_12/3", "group": "5주 차", "title": "12/3 (목) 내가 원하는 관계와 건강한 경계 정리하기", "fields": [{"t": "text", "id": "want", "label": "내가 원하는 관계의 모습", "hint": "어떤 대화, 어떤 거리, 어떤 하루를 바라나요?", "rows": 3}, {"t": "table", "id": "tb", "headers": ["나에게 괜찮은 것", "나에게 괜찮지 않은 것"], "rows": ["", ""]}, {"t": "text", "id": "respect", "label": "상대의 경계 중 내가 존중하기로 한 것", "hint": "", "rows": 2}], "special": "day", "md": "12/3", "no": 32, "wd": "목", "kind": "short", "mins": "10분", "task": "내가 원하는 관계와 건강한 경계 정리하기", "iso": "2026-12-03", "paper": 94, "paperj": 95, "en": "Recovery Task"}, {"key": "d_12/4", "group": "5주 차", "title": "12/4 (금) 회복 과제 없음", "fields": [{"t": "note", "html": "오늘은 회복 과제가 없는 날입니다. 쉬는 것도 회복의 일부입니다. 아무것도 쓰지 않아도 괜찮습니다.", "tone": "cream", "title": "쉬는 날"}, {"t": "h", "text": "오늘 내가 집중한 것 (선택)"}, {"t": "checks", "id": "focus", "items": ["취업 준비", "졸업작품", "학교 수업·과제", "그 밖의 일"], "label": ""}, {"t": "h", "text": "나를 위해 한 기본 돌봄 (선택)"}, {"t": "checks", "id": "care", "items": ["충분히 잤다", "식사를 챙겼다", "물을 마셨다", "잠깐 바깥 공기를 쐬었다", "휴대폰을 잠시 내려놓았다"], "label": ""}, {"t": "text", "id": "notice", "label": "쉬면서 알아챈 것 (선택)", "hint": "", "rows": 3}], "special": "day", "md": "12/4", "no": 33, "wd": "금", "kind": "rest", "mins": "휴식", "task": "회복 과제 없음", "iso": "2026-12-04", "paper": 96, "paperj": 97, "en": "Recovery Task"}, {"key": "d_12/5", "group": "5주 차", "title": "12/5 (토) 나만을 위한 일정 만들기", "fields": [{"t": "note", "html": "선택 과제입니다. 누구와도 상관없이, 나만을 위한 하루 일정을 만들어 봅니다.", "tone": "cream", "title": ""}, {"t": "slots", "id": "slots", "items": ["오전", "오후", "저녁"]}, {"t": "text", "id": "after", "label": "이 일정을 보낸 뒤 느낀 점", "hint": "", "rows": 2}], "special": "day", "md": "12/5", "no": 34, "wd": "토", "kind": "optional", "mins": "선택", "task": "나만을 위한 일정 만들기", "iso": "2026-12-05", "paper": 98, "paperj": 99, "en": "Recovery Task"}, {"key": "d_12/6", "group": "5주 차", "title": "12/6 (일) 혼자서도 안정적이었던 순간 3가지 기록하기", "fields": [{"t": "list", "id": "l", "n": 3, "prefix": "언제 / 무엇을 하고 있었나 / 무엇이 나를 안정시켰나 :", "hint": "", "rows": 3}, {"t": "scorelink", "label": "5주 차"}], "special": "day", "md": "12/6", "no": 35, "wd": "일", "kind": "review", "mins": "10분", "task": "혼자서도 안정적이었던 순간 3가지 기록하기", "iso": "2026-12-06", "paper": 100, "paperj": 101, "en": "Recovery Task"}, {"key": "wi_w6", "group": "마지막 6일", "title": "마지막 6일 시작", "fields": [], "special": "week", "week": "w6", "theme": "달라진 나를 확인하기", "goal": "누구에게 증명하기 위해서가 아니라, 스스로의 변화를 판단하기.", "range": "12/7 – 12/12", "extra": "12월 12일은 반드시 완전히 회복해야 하는 마감일이 아닙니다. 지금까지의 변화를 점검하고, 앞으로의 방향을 정하는 날입니다. 또한 이 6일은 누군가에게 나를 증명하는 시간이 아니라, <b>내가 나의 변화를 스스로 판단하는 시간<\/b>입니다.", "paper": 102, "more": [{"key": "x_share", "title": "회복의 책임 나누기, 관계 안에서 나를 지키기"}], "en": "The Final Six Days"}, {"key": "x_share", "group": "마지막 6일", "title": "회복의 책임 나누기, 관계 안에서 나를 지키기", "fields": [{"t": "html", "html": "<p class=\"intro\">좋은 관계는 회복에 큰 힘이 되지만, 상대가 '나를 낫게 해야 하는 사람'이 되면 상대는 매일 시험을 치르고 나는 매일 채점하게 됩니다. 상대는 내 회복의 <b>동료<\/b>이지 <b>담당자<\/b>가 아닙니다. 그리고 관계 안에서 내가 사라지면 상대가 아끼던 나도 사라집니다.<\/p>"}, {"t": "table", "id": "split", "headers": ["상대에게 요청할 수 있는 것", "내가 스스로 맡는 것"], "rows": ["", "", ""]}, {"t": "text", "id": "keep", "label": "관계와 무관하게 '나의 것'으로 지키고 싶은 것 — 시간, 사람, 장소, 활동, 의견", "hint": "", "rows": 4}, {"t": "text", "id": "back", "label": "관계가 깊어지며 줄어든 것 중 다시 가져오고 싶은 것 하나", "hint": "", "rows": 3}], "extra": true, "kicker": "더 알아보기 · 선택", "paper": 103, "en": "Sharing the Work"}, {"key": "d_12/7", "group": "마지막 6일", "title": "12/7 (월) 11월 2일의 첫 일기와 오늘의 나 비교하기", "fields": [{"t": "note", "html": "<a class=\"go\" data-go=\"d_11/2\">11월 2일 기록<\/a>을 다시 읽어 본 뒤 적습니다. 달라지지 않은 부분이 있어도 괜찮습니다.", "tone": "lav", "title": ""}, {"t": "table", "id": "tb", "headers": ["", "11월 2일의 나", "오늘의 나"], "rows": ["가장 자주 느낀 감정", "불안할 때 한 행동", "나에게 한 말", "하루의 중심에 있던 것"]}], "special": "day", "md": "12/7", "no": 36, "wd": "월", "kind": "core", "mins": "20분", "task": "11월 2일의 첫 일기와 오늘의 나 비교하기", "iso": "2026-12-07", "paper": 104, "paperj": 105, "en": "Recovery Task"}, {"key": "d_12/8", "group": "마지막 6일", "title": "12/8 (화) 불안·의존·분노 상황에서 달라진 행동 정리하기", "fields": [{"t": "table", "id": "tb", "headers": ["", "예전의 나", "달라진 행동"], "rows": ["불안할 때", "의존하고 싶을 때", "화가 날 때"]}, {"t": "text", "id": "hard", "label": "아직 어려운 것 (실패가 아니라 다음 과제입니다)", "hint": "", "rows": 2}], "special": "day", "md": "12/8", "no": 37, "wd": "화", "kind": "short", "mins": "10분", "task": "불안·의존·분노 상황에서 달라진 행동 정리하기", "iso": "2026-12-08", "paper": 106, "paperj": 107, "en": "Recovery Task"}, {"key": "d_12/9", "group": "마지막 6일", "title": "12/9 (수) 마지막 점검 상담 또는 앞으로의 상담 계획 세우기", "fields": [{"t": "h", "text": "오늘 한 것"}, {"t": "checks", "id": "did", "items": ["마지막 점검 상담", "앞으로의 상담 계획 세우기"], "label": ""}, {"t": "table", "id": "tb", "headers": ["항목", "나의 계획"], "rows": ["상담 빈도", "다룰 주제", "기관·상담사", "첫 예약일"]}, {"t": "text", "id": "habit", "label": "상담 외에 계속할 회복 습관", "hint": "", "rows": 2}], "special": "day", "md": "12/9", "no": 38, "wd": "수", "kind": "core", "mins": "30~50분", "task": "마지막 점검 상담 또는 앞으로의 상담 계획 세우기", "iso": "2026-12-09", "paper": 108, "paperj": 109, "en": "Recovery Task"}, {"key": "d_12/10", "group": "마지막 6일", "title": "12/10 (목) 앞으로의 관계에서 지켜야 할 나의 원칙 5가지 작성하기", "fields": [{"t": "note", "html": "이 원칙은 앞으로 어떤 관계에서든 <b>나를 지키기 위한 기준<\/b>입니다.", "tone": "warn", "title": ""}, {"t": "list", "id": "l", "n": 5, "prefix": "", "hint": "", "rows": 2}], "special": "day", "md": "12/10", "no": 39, "wd": "목", "kind": "short", "mins": "10분", "task": "앞으로의 관계에서 지켜야 할 나의 원칙 5가지 작성하기", "iso": "2026-12-10", "paper": 110, "paperj": 111, "en": "Recovery Task"}, {"key": "d_12/11", "group": "마지막 6일", "title": "12/11 (금) 회복 과제 없음. 충분히 쉬기", "fields": [{"t": "note", "html": "오늘은 회복 과제가 없는 날입니다. 쉬는 것도 회복의 일부입니다. 아무것도 쓰지 않아도 괜찮습니다.", "tone": "cream", "title": "쉬는 날"}, {"t": "h", "text": "오늘 내가 집중한 것 (선택)"}, {"t": "checks", "id": "focus", "items": ["취업 준비", "졸업작품", "학교 수업·과제", "충분히 쉬기"], "label": ""}, {"t": "h", "text": "나를 위해 한 기본 돌봄 (선택)"}, {"t": "checks", "id": "care", "items": ["충분히 잤다", "식사를 챙겼다", "물을 마셨다", "잠깐 바깥 공기를 쐬었다", "휴대폰을 잠시 내려놓았다"], "label": ""}, {"t": "text", "id": "notice", "label": "쉬면서 알아챈 것 (선택)", "hint": "", "rows": 3}], "special": "day", "md": "12/11", "no": 40, "wd": "금", "kind": "rest", "mins": "휴식", "task": "회복 과제 없음. 충분히 쉬기", "iso": "2026-12-11", "paper": 112, "paperj": 113, "en": "Recovery Task"}, {"key": "d_12/12", "group": "마지막 6일", "title": "12/12 (토) 41일 회복 기록을 읽고 앞으로의 나에게 편지 쓰기", "fields": [{"t": "note", "html": "오늘은 완전히 회복해야 하는 마감일이 아닙니다. 지금까지의 변화를 점검하고 앞으로의 방향을 정하는 날입니다.", "tone": "lav", "title": "12월 12일"}, {"t": "h", "text": "오늘의 순서"}, {"t": "checks", "id": "order", "items": ["41일 기록 천천히 읽기", "최종 회고 쓰기", "앞으로의 나에게 편지 쓰기"], "label": ""}, {"t": "html", "html": "<p class=\"links\"><a class=\"go\" data-go=\"final\">→ 최종 회고와 편지 쓰러 가기<\/a><\/p>"}, {"t": "text", "id": "line", "label": "기록을 읽으며 밑줄 긋고 싶었던 문장", "hint": "", "rows": 3}, {"t": "scorelink", "label": "마지막 6일"}], "special": "day", "md": "12/12", "no": 41, "wd": "토", "kind": "final", "mins": "20분", "task": "41일 회복 기록을 읽고 앞으로의 나에게 편지 쓰기", "iso": "2026-12-12", "paper": 114, "paperj": 115, "en": "Recovery Task"}, {"key": "safety", "group": "마무리", "title": "감정이 격해졌을 때의 5단계 안전 계획", "fields": [{"t": "html", "html": "<div class=\"sfs\"><div class=\"sf\"><div class=\"sf-n\">1<\/div><div class=\"sf-t\">상대에게 손을 대거나 물건을 던지지 않는다.<\/div><\/div><div class=\"sf\"><div class=\"sf-n\">2<\/div><div class=\"sf-t\">대화를 즉시 중단하고 물리적으로 거리를 둔다.<\/div><\/div><div class=\"sf\"><div class=\"sf-n\">3<\/div><div class=\"sf-t\">\"지금은 감정이 너무 격해져서 대화할 수 없어. 진정한 뒤 이야기하자\"고 말한다.<\/div><\/div><div class=\"sf\"><div class=\"sf-n\">4<\/div><div class=\"sf-t\">상대를 따라가거나 연락을 반복하지 않고 각자 안전한 공간에서 진정한다.<\/div><\/div><div class=\"sf\"><div class=\"sf-n\">5<\/div><div class=\"sf-t\">충분히 진정된 뒤에만 대화를 재개한다. 폭력이나 위협이 있었다면 사과와 재발 방지 조치를 별도로 한다.<\/div><\/div><\/div>"}, {"t": "note", "html": "화, 서운함, 두려움 같은 감정은 잘못이 아닙니다. 다만 <b>폭력은 감정과 별개로 내가 책임지는 행동<\/b>입니다. \"너무 화가 나서\"는 이유가 될 수는 있어도 행동을 대신 책임져 주지 않습니다. 이 계획은 나를 탓하려는 것이 아니라, 감정이 가장 클 때도 <b>내가 원하는 모습으로 행동할 수 있게 돕는 장치<\/b>입니다.", "tone": "cream", "title": "감정과 행동은 다릅니다"}, {"t": "note", "html": "나 또는 상대가 즉시 위험하다고 느껴지면 지체하지 말고 112(위험) 또는 119(응급)에 연락합니다.", "tone": "warn", "title": ""}, {"t": "text", "id": "why", "label": "이 계획을 지키고 싶은 나만의 이유", "hint": "", "rows": 2}, {"t": "h", "text": "나만의 실행 카드"}, {"t": "note", "html": "11/23~11/26 과제를 마친 뒤 채우면 더 정확해집니다.", "tone": "lav", "title": ""}, {"t": "table", "id": "sig", "headers": ["", "몸", "생각", "행동"], "rows": ["나의 전조 신호"]}, {"t": "text", "id": "place", "label": "거리를 둘 장소 (집 / 밖)", "hint": "", "rows": 2}, {"t": "text", "id": "calm", "label": "진정을 돕는 것 3가지", "hint": "", "rows": 2}, {"t": "html", "html": "<div class=\"script s\">\"지금은 감정이 너무 격해져서 대화할 수 없어. 진정한 뒤 이야기하자.\"<\/div>"}, {"t": "text", "id": "say", "label": "그 자리에서 할 말 (내 말로)", "hint": "", "rows": 2}, {"t": "text", "id": "who", "label": "연락할 수 있는 사람·기관", "hint": "", "rows": 2}, {"t": "checks", "id": "resume", "items": ["몸의 반응이 가라앉았다", "상대도 동의했다", "정해 둔 시간이 지났다", "하고 싶은 말을 '나는~'으로 정리했다"], "label": "대화를 다시 시작하는 조건"}, {"t": "text", "id": "mins", "label": "대화 재개 전 최소 시간 (분)", "hint": "", "rows": 1}, {"t": "checks", "id": "repair", "items": ["변명 없이 사과한다 (\"하지만\"을 붙이지 않는다)", "상대가 원하는 거리와 시간을 존중한다", "재발 방지 행동을 구체적으로 정하고 상대에게 알린다", "전문 상담(감정 조절·분노 관리)을 연결한다"], "label": "폭력이나 위협이 있었다면 — 사과와 재발 방지는 따로"}, {"t": "text", "id": "repairnote", "label": "재발 방지 행동 메모", "hint": "", "rows": 2}], "paper": 116, "en": "Safety Plan"}, {"key": "scores", "group": "마무리", "title": "매주 회복 점수표", "fields": [], "special": "scores", "paper": 118, "en": "Weekly Check-in"}, {"key": "score_1주 차", "group": "마무리", "title": "1주 차 회복 점수표", "fields": [], "special": "score", "label": "1주 차", "md": "11/8", "paper": 119, "en": "Weekly Check-in"}, {"key": "score_2주 차", "group": "마무리", "title": "2주 차 회복 점수표", "fields": [], "special": "score", "label": "2주 차", "md": "11/15", "paper": 120, "en": "Weekly Check-in"}, {"key": "score_3주 차", "group": "마무리", "title": "3주 차 회복 점수표", "fields": [], "special": "score", "label": "3주 차", "md": "11/22", "paper": 121, "en": "Weekly Check-in"}, {"key": "score_4주 차", "group": "마무리", "title": "4주 차 회복 점수표", "fields": [], "special": "score", "label": "4주 차", "md": "11/29", "paper": 122, "en": "Weekly Check-in"}, {"key": "score_5주 차", "group": "마무리", "title": "5주 차 회복 점수표", "fields": [], "special": "score", "label": "5주 차", "md": "12/6", "paper": 123, "en": "Weekly Check-in"}, {"key": "score_마지막 6일", "group": "마무리", "title": "마지막 6일 회복 점수표", "fields": [], "special": "score", "label": "마지막 6일", "md": "12/12", "paper": 124, "en": "Weekly Check-in"}, {"key": "trend", "group": "마무리", "title": "회복 점수 추이", "fields": [], "special": "trend", "paper": 125, "en": "Score Trend"}, {"key": "final", "group": "마무리", "title": "41일 최종 회고 · 편지", "fields": [{"t": "text", "id": "changed", "label": "41일 동안 가장 많이 달라진 것", "hint": "", "rows": 3}, {"t": "text", "id": "hard", "label": "여전히 어려운 것 — 실패가 아니라 앞으로 함께할 과제", "hint": "", "rows": 3}, {"t": "text", "id": "helped", "label": "나를 가장 많이 도와준 것 (사람·습관·문장)", "hint": "", "rows": 3}, {"t": "checks", "id": "keep", "items": ["오늘의 회복 기록", "사실과 해석 구분", "10분 행동 보류", "안전 계획", "상담", "안정 활동 목록", "주간 점수표"], "label": "앞으로도 계속할 것"}, {"t": "text", "id": "next", "label": "앞으로 4주 동안의 나의 방향 한 가지", "hint": "", "rows": 2}, {"t": "h", "text": "앞으로의 나에게 쓰는 편지"}, {"t": "letter", "id": "letter", "open": "2026년 12월 12일, 앞으로의 나에게", "rows": 20}, {"t": "text", "id": "sign", "label": "41일을 지나온 내가 (서명)", "hint": "", "rows": 1}], "paper": 126, "en": "Final Reflection"}, {"key": "x_stop", "group": "부록", "title": "잠시 멈추기 — 감정이 너무 커질 때", "fields": [{"t": "html", "html": "<p class=\"intro\">숨이 가빠지거나, 손이 떨리거나, 생각이 멈추지 않거나, 나나 누군가를 해칠 것 같은 충동이 느껴진다면 기록을 멈추세요. <b>지금은 이해하는 시간이 아니라 안전해지는 시간입니다.<\/b><\/p>"}, {"t": "html", "html": "<div class=\"xsteps\"><div><span>1<\/span><b>내려놓기<\/b><em>펜을 내려놓고 워크북을 덮습니다. 이 페이지는 나중에도 있습니다.<\/em><\/div><div><span>2<\/span><b>지금 여기 확인<\/b><em>보이는 것 다섯, 들리는 소리 넷, 손에 닿는 것 셋을 천천히 셉니다. 지금은 과거가 아니라 현재입니다.<\/em><\/div><div><span>3<\/span><b>길게 내쉬기<\/b><em>들이쉬는 숨보다 내쉬는 숨을 길게, 서너 번. 어깨와 턱의 힘을 뺍니다.<\/em><\/div><div><span>4<\/span><b>자리 옮기기<\/b><em>누군가와 함께라면 \"지금은 말을 이어가기 어려워. 조금 있다가 이야기하자.\" 한마디면 충분합니다.<\/em><\/div><div><span>5<\/span><b>몸 돌보기<\/b><em>물 한 잔, 따뜻한 것, 담요, 창문 열기. 작고 구체적인 것.<\/em><\/div><div><span>6<\/span><b>연락하기<\/b><em>혼자 감당하기 어렵다면 믿을 수 있는 사람이나 전문 상담 전화에. 연락은 약함이 아니라 나를 지키는 행동입니다.<\/em><\/div><\/div>"}, {"t": "note", "html": "정신건강 위기상담 <b>1577-0199<\/b> (24시간) · 자살예방상담 <b>109<\/b> (24시간) · 여성긴급전화 <b>1366<\/b> (24시간) · 긴급 상황 <b>112 / 119<\/b>", "tone": "warn", "title": ""}, {"t": "text", "id": "mine", "label": "나만의 멈춤 방법 (효과가 있었던 것을 적어 두기)", "hint": "", "rows": 4}], "extra": true, "kicker": "부록 · 언제든 펼치기", "paper": 130, "en": "Pause Now"}, {"key": "x_me", "group": "부록", "title": "나는 어떤 사람인가, 무엇을 소중히 여기는가", "fields": [{"t": "html", "html": "<p class=\"intro\">'상처받은 사람'이 나의 전부가 아닙니다. 그 바깥의 나를 적어 봅니다. 가치는 달성하고 끝나는 목표가 아니라 <b>매일의 선택에서 드러나는 방향<\/b>입니다. 힘든 순간에도 \"지금 이 행동이 내가 되고 싶은 사람에 가까운가?\"를 물을 수 있게 해 줍니다.<\/p>"}, {"t": "text", "id": "three", "label": "요즘의 나를 세 문장으로 소개한다면? (직업, 역할, 성격, 좋아하는 것 무엇이든)", "hint": "", "rows": 4}, {"t": "text", "id": "flow", "label": "내가 몰입하거나 편안해지는 순간, 그때의 나", "hint": "", "rows": 3}, {"t": "checks", "id": "values", "items": ["정직", "따뜻함", "자유", "안정", "성장", "존중", "유머", "책임", "창의성", "용기", "공정함", "친밀함", "독립", "배움", "건강", "신뢰", "평온", "기여"], "label": "지금의 나에게 중요한 가치 (개수 제한 없음)"}, {"t": "text", "id": "top", "label": "가장 중요한 세 가지와 그 이유 / 최근에 그 가치대로 행동했던 순간", "hint": "", "rows": 5}], "extra": true, "kicker": "부록 · 나를 이해하기", "paper": 131, "en": "About Me"}, {"key": "x_letter_now", "group": "부록", "title": "현재의 나에게 쓰는 편지", "fields": [{"t": "html", "html": "<p class=\"intro\">요즘 어떻게 지내는지, 무엇이 힘들고 무엇이 괜찮은지. 친구에게 쓰듯이 씁니다. 편지는 보내기 위한 것이 아니라 쓰기 위한 것입니다.<\/p>"}, {"t": "letter", "id": "letter", "open": "지금의 나에게,", "rows": 18}], "extra": true, "kicker": "부록 · 자유 기록", "paper": 132, "en": "Letter to Me Now"}, {"key": "x_hard_emotion", "group": "부록", "title": "이해하기 어려운 감정", "fields": [{"t": "html", "html": "<p class=\"intro\">이름 붙이기 어렵거나, 이유를 모르겠거나, 상황에 비해 너무 큰 감정을 그대로 적어 두는 곳입니다. 이해하지 못해도 괜찮습니다. 적어 두면 비슷한 감정이 다시 왔을 때 '아, 그때 그 감정'이라고 알아볼 수 있습니다.<\/p>"}, {"t": "text", "id": "body", "label": "날짜와 함께 자유롭게", "hint": "", "rows": 4}], "extra": true, "kicker": "부록 · 자유 기록", "paper": 133, "en": "Hard Feelings"}, {"key": "x_moments", "group": "부록", "title": "기억하고 싶은 순간", "fields": [{"t": "html", "html": "<p class=\"intro\">작고 좋았던 순간들. 누군가의 다정한 말, 혼자 편안했던 저녁, 내가 나를 잘 대한 날. 힘든 날 다시 읽기 위해 모아 둡니다.<\/p>"}, {"t": "text", "id": "body", "label": "날짜와 함께 자유롭게", "hint": "", "rows": 4}], "extra": true, "kicker": "부록 · 자유 기록", "paper": 134, "en": "Moments to Keep"}, {"key": "x_words", "group": "부록", "title": "나에게 해 주고 싶은 말", "fields": [{"t": "html", "html": "<p class=\"intro\">언제든 돌아와 읽을 수 있는 말들. 나를 안심시키는 문장, 누군가 해 주었으면 했지만 이제는 내가 나에게 해 주는 말.<\/p>"}, {"t": "text", "id": "body", "label": "", "hint": "", "rows": 4}, {"t": "note", "html": "이 기록은 41일로 끝나지 않습니다. 한참 동안 펼치지 않게 되는 날이 온다면, 그건 아마 삶이 과거보다 현재로 더 많이 채워졌기 때문일 겁니다. 다시 펼치게 되더라도 괜찮습니다. 돌아올 곳이 있다는 것은 좋은 일입니다.", "tone": "cream", "title": ""}], "extra": true, "kicker": "부록 · 자유 기록", "paper": 135, "en": "Words for Me"}], "quote": "그때의 일은 내 삶에서 일어난 일이지만, 앞으로 내 삶에서 일어날 모든 일을 결정하지는 않는다.", "scoreItems": ["과거의 기억과 현재의 상황을 구분할 수 있었다.", "불안할 때 최악의 상황을 사실처럼 받아들이지 않았다.", "상대방의 반응과 별개로 내 일상을 유지했다.", "감정이 격해졌을 때 행동하기 전에 멈췄다.", "상대방의 경계를 존중하고 나의 경계도 지켰다.", "나 자신에게 비난보다 이해와 돌봄을 제공했다."], "scoreWeeks": [["1주 차", "11/8"], ["2주 차", "11/15"], ["3주 차", "11/22"], ["4주 차", "11/29"], ["5주 차", "12/6"], ["마지막 6일", "12/12"]], "weeks": [{"key": "w1", "label": "1주 차", "theme": "내가 왜 아픈지 정확하게 이해하기"}, {"key": "w2", "label": "2주 차", "theme": "과거의 나를 현재의 내가 돌보기"}, {"key": "w3", "label": "3주 차", "theme": "과거와 현재를 분리하기"}, {"key": "w4", "label": "4주 차", "theme": "감정을 건강하게 표현하기"}, {"key": "w5", "label": "5주 차", "theme": "나를 나의 안전기지로 만들기"}, {"key": "w6", "label": "마지막 6일", "theme": "달라진 나를 확인하기"}], "kinds": {"core": "핵심 과제", "short": "짧은 과제", "rest": "휴식", "optional": "선택 자기돌봄", "review": "주간 점검", "final": "마무리"}, "emotions": ["불안", "서운함", "외로움", "분노", "수치심", "두려움", "슬픔", "무기력", "안도", "평온", "기쁨", "고마움"], "start": "2026-11-02", "prep": "2026-11-01"};
+const PAGES = DATA.pages;
+const BY_KEY = Object.fromEntries(PAGES.map(p => [p.key, p]));
+
+/* ════════════════════════════════════════════════════════════
+   저장소: 모든 입력값을 하나의 객체(S)에 '페이지키.칸id' 형태로 보관하고
+   ① 입력 즉시 localStorage에 자동 저장 (이 기기)
+   ② 동기화를 켜 두면 2.5초 뒤 GitHub 비공개 저장소에 암호화해서 업로드 (PC·폰 공유)
+   Claude 계정 저장소(window.claude)는 사용하지 않는다.
+   ════════════════════════════════════════════════════════════ */
+const STORE_KEY = "recovery41.v1";
+let S = {};
+try { S = JSON.parse(localStorage.getItem(STORE_KEY) || "{}"); } catch (e) { }   // 이 기기의 사본(빠른 표시·오프라인용)
+
+/* ════════════════════════════════════════════════════════════
+   변경 시각표(M): 키마다 '마지막으로 바뀐 시각(ms)'을 기록한다.
+   - 지운 칸도 시각을 남겨, 다른 기기의 옛 값이 되살아나지 않게 한다.
+   - 두 기기의 기록을 합칠 때 칸마다 더 최근 것을 고른다(칸 단위 병합).
+   ════════════════════════════════════════════════════════════ */
+const META_KEY = "recovery41.meta";      // 변경 시각표 (이 기기)
+const CFG_KEY = "recovery41.sync";       // 동기화 설정 (이 기기에만 보관: 사용자명·저장소·토큰·비밀번호)
+let M = {};
+try { M = JSON.parse(localStorage.getItem(META_KEY) || "{}"); } catch (e) { }
+Object.keys(S).forEach(k => { if (!(k in M)) M[k] = 1; });   // 예전 기록(시각 없음)은 '아주 오래된 값'으로 취급
+
+/* 이 기기에 즉시 저장. 실패(사생활 보호 모드 등)하면 false */
+function cacheLocal() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(S)); localStorage.setItem(META_KEY, JSON.stringify(M)); return true; }
+  catch (e) { return false; }
+}
+
+/* ────────── 동기화 상태 ────────── */
+let CFG = null;                          // { owner, repo, token, pass }
+try { CFG = JSON.parse(localStorage.getItem(CFG_KEY) || "null"); } catch (e) { }
+const SYNC = {
+  sha: null,          // GitHub에 있는 파일의 현재 버전(sha). 올릴 때 함께 보내 덮어쓰기 충돌을 막는다
+  salt: null,         // 암호화 키를 만들 때 쓰는 소금값(파일에 함께 저장, 모든 기기 공통)
+  key: null, keyFor: "",                 // 만든 암호화 키 캐시(비밀번호+소금 조합별)
+  timer: null,        // 입력 후 업로드 대기 타이머
+  busy: false, again: false,             // 동기화 진행 중 / 끝나면 한 번 더
+  edits: 0,           // 입력 횟수(동기화 도중 새 입력이 있었는지 판단)
+  blocked: ""         // 비밀번호·토큰 오류로 멈춘 상태 ("pass" / "auth")
+};
+const FILE = "recovery41.enc.json";      // 저장소 안의 암호화된 기록 파일 이름
+const syncOn = () => !!(CFG && CFG.owner && CFG.repo && CFG.token && CFG.pass && !SYNC.blocked);
+const syncErr = (kind, msg) => Object.assign(new Error(msg), { kind, msg });
+
+/* 오른쪽 위 상태 표시 */
+function setSync(state, extra = "") {
+  const el = $("#saved"); if (!el) return;
+  const t = new Date(), hm = `${t.getHours()}:${String(t.getMinutes()).padStart(2, "0")}`;
+  const label = {
+    local: `이 기기에 저장됨 ${hm}`,
+    pending: "이 기기에 저장됨 · 곧 업로드",
+    saving: "동기화 중…",
+    ok: `동기화됨 ✓ ${hm}`,
+    offline: "오프라인 · 이 기기에 저장됨 (연결되면 자동 업로드)",
+    err: `⚠ ${extra}`
+  }[state];
+  el.textContent = label; el.className = "sync " + (state === "ok" ? "ok" : state === "err" ? "err" : "");
+  el.title = "눌러서 PC·폰 동기화 설정 열기";
+}
+/* 왼쪽 아래 저장 방식 안내 */
+function updateNote() {
+  const note = $("#storeNote"); if (!note) return;
+  if (SYNC.blocked) note.textContent = "동기화가 멈췄습니다 (비밀번호 또는 토큰 확인 필요). 기록은 이 기기에 계속 저장됩니다.";
+  else if (syncOn()) note.textContent = `PC·폰 동기화 켜짐 · GitHub ${CFG.owner}/${CFG.repo} (암호화). 입력하면 자동으로 올라가고, 다른 기기에서 열면 자동으로 받아옵니다.`;
+  else note.textContent = "입력하면 이 기기에 자동 저장됩니다. 'PC·폰 동기화 설정'을 하면 폰과 이어 쓸 수 있어요.";
+}
+
+/* 입력 → 이 기기에 즉시 저장 + (동기화 켜짐이면) 2.5초 뒤 업로드. 타자마다 올리지 않도록 묶는다 */
+function save() {
+  const okLocal = cacheLocal();
+  renderNav(false);
+  if (!okLocal) { setSync("err", "이 브라우저에 저장할 수 없습니다 (사생활 보호 모드인지 확인)"); return; }
+  if (!syncOn()) { setSync("local"); return; }
+  SYNC.edits++; setSync("pending");
+  clearTimeout(SYNC.timer); SYNC.timer = setTimeout(syncNow, 2500);
+}
+function setVal(k, v) {
+  if (v === "" || v === false || v == null) delete S[k]; else S[k] = v;
+  M[k] = Date.now();                     // 지운 경우에도 시각을 남김
+  save();
+}
+
+/* ────────── GitHub API ────────── */
+async function gh(path, opt = {}, cfg = CFG) {
+  return fetch("https://api.github.com" + path, {
+    ...opt, cache: "no-store",
+    headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${cfg.token}`, ...(opt.body ? { "Content-Type": "application/json" } : {}) }
+  });
+}
+const repoPath = (cfg = CFG) => `/repos/${encodeURIComponent(cfg.owner)}/${encodeURIComponent(cfg.repo)}`;
+
+/* base64 ↔ 바이트 (긴 데이터도 안전하게 나눠 변환) */
+const b64e = u8 => { let s = ""; for (let i = 0; i < u8.length; i += 0x8000) s += String.fromCharCode.apply(null, u8.subarray(i, i + 0x8000)); return btoa(s); };
+const b64d = str => Uint8Array.from(atob(str.replace(/\s/g, "")), c => c.charCodeAt(0));
+
+/* ────────── 암호화 (AES-GCM 256, 비밀번호 → PBKDF2-SHA256 25만 회) ──────────
+   GitHub에는 암호문만 올라가므로, 토큰이 새어도 비밀번호 없이는 내용을 읽을 수 없다. */
+const ITER = 250000;
+async function getKey(saltB64) {
+  if (!window.crypto || !crypto.subtle) throw syncErr("crypto", "이 주소에서는 암호화를 쓸 수 없습니다 (https 주소로 열어 주세요)");
+  const id = CFG.pass + "|" + saltB64;
+  if (SYNC.key && SYNC.keyFor === id) return SYNC.key;
+  const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(CFG.pass), "PBKDF2", false, ["deriveKey"]);
+  SYNC.key = await crypto.subtle.deriveKey({ name: "PBKDF2", salt: b64d(saltB64), iterations: ITER, hash: "SHA-256" },
+    base, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+  SYNC.keyFor = id;
+  return SYNC.key;
+}
+async function encrypt(obj) {
+  if (!SYNC.salt) SYNC.salt = b64e(crypto.getRandomValues(new Uint8Array(16)));   // 첫 업로드 때만 새로 만듦
+  const key = await getKey(SYNC.salt), iv = crypto.getRandomValues(new Uint8Array(12));      // iv는 매번 새로
+  const ct = new Uint8Array(await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, new TextEncoder().encode(JSON.stringify(obj))));
+  return JSON.stringify({ app: "recovery41", enc: "AES-GCM-256/PBKDF2-SHA256", iter: ITER, salt: SYNC.salt, iv: b64e(iv), ct: b64e(ct) });
+}
+async function decrypt(text) {
+  const env = JSON.parse(text);
+  const key = await getKey(env.salt);
+  const pt = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64d(env.iv) }, key, b64d(env.ct));   // 비밀번호가 다르면 여기서 실패
+  SYNC.salt = env.salt;
+  return JSON.parse(new TextDecoder().decode(pt));
+}
+
+/* 원격 파일 받기 → 복호화. 파일이 아직 없으면 null */
+async function pull() {
+  const r = await gh(`${repoPath()}/contents/${FILE}`);
+  if (r.status === 404) { SYNC.sha = null; return null; }
+  if (r.status === 401) throw syncErr("auth", "토큰이 만료되었거나 잘못되었습니다 — 동기화 설정에서 새 토큰을 넣어 주세요");
+  if (r.status === 403 || r.status === 429) throw syncErr("rate", "GitHub 요청이 잠시 제한되었습니다 (이 기기에는 저장됨)");
+  if (!r.ok) throw syncErr("http", `GitHub 오류 ${r.status} (이 기기에는 저장됨)`);
+  const j = await r.json();
+  let content = j.content;
+  if (!content && j.sha) {               // 1MB가 넘는 파일은 내용이 비어 오므로 blob으로 다시 받음
+    const b = await gh(`${repoPath()}/git/blobs/${j.sha}`);
+    content = (await b.json()).content;
+  }
+  let data;
+  try { data = await decrypt(new TextDecoder().decode(b64d(content))); }
+  catch (e) { if (e.kind) throw e; throw syncErr("pass", "비밀번호가 다릅니다 — 동기화를 멈췄습니다 (설정에서 확인)"); }
+  SYNC.sha = j.sha;
+  return data;
+}
+
+/* 원격 기록과 합치기: 칸마다 더 최근에 바뀐 쪽을 택한다 */
+function merge(remote) {
+  const rS = remote.S || {}, rM = remote.M || {};
+  let changed = false, needPush = false;
+  for (const k of new Set([...Object.keys(M), ...Object.keys(rM)])) {
+    const lt = M[k] || 0, rt = rM[k] || 0;
+    if (rt > lt) {                       // 다른 기기가 더 최근 → 받아옴
+      if (k in rS) { if (JSON.stringify(S[k]) !== JSON.stringify(rS[k])) { S[k] = rS[k]; changed = true; } }
+      else if (k in S) { delete S[k]; changed = true; }
+      M[k] = rt;
+    } else if (lt > rt) needPush = true; // 이 기기가 더 최근 → 올려야 함
+  }
+  return { changed, needPush };
+}
+
+/* 동기화 한 번: 받기 → 합치기 → (필요하면) 올리기. 충돌하면 다시 받아서 재시도 */
+async function syncNow() {
+  if (!syncOn()) return;
+  if (SYNC.busy) { SYNC.again = true; return; }
+  SYNC.busy = true; clearTimeout(SYNC.timer);
+  try {
+    if (navigator.onLine === false) { setSync("offline"); return; }
+    setSync("saving");
+    let done = false;
+    for (let attempt = 0; attempt < 4 && !done; attempt++) {
+      const remote = await pull();
+      let needPush = !remote;            // 원격 파일이 없으면 첫 업로드
+      if (remote) {
+        const m = merge(remote);
+        if (m.changed) { cacheLocal(); refreshView(); }
+        needPush = m.needPush;
+      }
+      if (!needPush) { done = true; break; }
+      const body = {
+        message: `기록 동기화 ${new Date().toISOString()}`,
+        content: b64e(new TextEncoder().encode(await encrypt({ app: "recovery41", v: 2, S, M })))
+      };
+      if (SYNC.sha) body.sha = SYNC.sha;
+      const r = await gh(`${repoPath()}/contents/${FILE}`, { method: "PUT", body: JSON.stringify(body) });
+      if (r.status === 409 || r.status === 422) continue;   // 그 사이 다른 기기가 먼저 올림 → 다시 받아 합친 뒤 재시도
+      if (r.status === 401) throw syncErr("auth", "토큰이 만료되었거나 잘못되었습니다 — 동기화 설정에서 새 토큰을 넣어 주세요");
+      if (r.status === 403 || r.status === 404) throw syncErr("perm", "저장소에 쓸 권한이 없습니다 (토큰의 Contents: Read and write 확인)");
+      if (!r.ok) throw syncErr("http", `GitHub 오류 ${r.status} (이 기기에는 저장됨)`);
+      SYNC.sha = (await r.json()).content.sha;
+      done = true;
+    }
+    if (!done) throw syncErr("http", "다른 기기와 동시에 저장되어 잠시 뒤 다시 시도합니다");
+    setSync("ok");
+  } catch (e) {
+    if (e.kind === "pass" || e.kind === "auth") { SYNC.blocked = e.kind; setSync("err", e.msg); updateNote(); }
+    else if (navigator.onLine === false || e instanceof TypeError) setSync("offline");   // 네트워크 끊김(fetch 실패)
+    else setSync("err", e.msg || "동기화 실패 (이 기기에는 저장됨)");
+    if (e.kind === "http" || e.kind === "rate") { clearTimeout(SYNC.timer); SYNC.timer = setTimeout(syncNow, 20000); }   // 일시 오류는 20초 뒤 재시도
+  } finally {
+    SYNC.busy = false;
+    if (SYNC.again) { SYNC.again = false; setTimeout(syncNow, 300); }
+  }
+}
+
+/* ────────── 동기화 설정창 ────────── */
+function sMsg(text, cls = "") { const m = $("#sMsg"); m.textContent = text; m.className = "msg " + cls; }
+function openSync(pre = null, msg = "") {
+  const c = pre || CFG || {};
+  $("#sOwner").value = c.owner || ""; $("#sRepo").value = c.repo || "recovery41-data";
+  $("#sToken").value = c.token || ""; $("#sPass").value = pre ? "" : (c.pass || "");
+  $("#sOff").hidden = $("#sLink").hidden = !CFG;
+  $("#qr").innerHTML = "";
+  sMsg(msg || (SYNC.blocked ? "동기화가 멈춰 있습니다. 비밀번호/토큰을 확인한 뒤 다시 연결하세요." : CFG ? `연결됨: ${CFG.owner}/${CFG.repo}` : ""), SYNC.blocked ? "err" : CFG ? "ok" : "");
+  $("#sdlg").hidden = false;
+  setTimeout(() => (pre ? $("#sPass") : $("#sOwner")).focus(), 50);
+}
+/* 버튼 연결 (화면 도우미 $가 정의된 뒤, syncInit에서 호출) */
+function wireSync() {
+$("#syncBtn").onclick = () => openSync();
+$("#saved").onclick = () => openSync();
+$("#sClose").onclick = () => { $("#sdlg").hidden = true; };
+
+/* 연결하고 동기화: 저장소 확인(비공개인지) → 비밀번호로 기존 기록 열어 보기 → 저장 */
+$("#sSave").onclick = async () => {
+  const cfg = { owner: $("#sOwner").value.trim(), repo: $("#sRepo").value.trim(), token: $("#sToken").value.trim(), pass: $("#sPass").value };
+  if (!cfg.owner || !cfg.repo || !cfg.token) return sMsg("사용자명, 저장소 이름, 토큰을 모두 입력하세요.", "err");
+  if (cfg.pass.length < 6) return sMsg("비밀번호는 6자 이상으로 정해 주세요.", "err");
+  sMsg("GitHub 저장소를 확인하는 중…");
+  let r;
+  try { r = await gh(repoPath(cfg), {}, cfg); } catch (e) { return sMsg("인터넷 연결을 확인해 주세요.", "err"); }
+  if (r.status === 401) return sMsg("토큰이 올바르지 않거나 만료되었습니다.", "err");
+  if (r.status === 404) return sMsg("저장소를 찾을 수 없습니다. 사용자명·저장소 이름, 그리고 토큰에서 이 저장소를 선택했는지 확인하세요.", "err");
+  if (!r.ok) return sMsg(`GitHub 오류 ${r.status}`, "err");
+  const info = await r.json();
+  if (!info.private) return sMsg("이 저장소는 공개(Public)입니다. 저장소 Settings에서 Private로 바꾸거나 비공개 저장소를 새로 만드세요.", "err");
+
+  const prev = { CFG, sha: SYNC.sha, salt: SYNC.salt, blocked: SYNC.blocked };
+  CFG = cfg; SYNC.sha = null; SYNC.salt = null; SYNC.key = null; SYNC.blocked = "";
+  sMsg("기록을 확인하는 중… (암호 키를 만드는 데 몇 초 걸릴 수 있어요)");
+  try {
+    await pull();                        // 기존 파일이 있으면 이 비밀번호로 열리는지 먼저 확인
+  } catch (e) {
+    CFG = prev.CFG; SYNC.sha = prev.sha; SYNC.salt = prev.salt; SYNC.blocked = prev.blocked; SYNC.key = null;
+    return sMsg(e.kind === "pass" ? "비밀번호가 다릅니다. 처음 동기화를 설정한 기기와 같은 비밀번호를 입력하세요." : e.msg, "err");
+  }
+  try { localStorage.setItem(CFG_KEY, JSON.stringify(CFG)); } catch (e) { }
+  updateNote();
+  await syncNow();
+  $("#sOff").hidden = $("#sLink").hidden = false;
+  sMsg(SYNC.blocked ? "연결은 되었지만 동기화에 실패했습니다." : "연결되었습니다. 이제 입력하면 자동으로 동기화됩니다.", SYNC.blocked ? "err" : "ok");
+};
+
+/* 연결 해제: 이 기기의 설정만 지운다(기록은 이 기기와 GitHub에 그대로 남음) */
+$("#sOff").onclick = async () => {
+  $("#sdlg").hidden = true;
+  if (!(await ask("이 기기의 동기화 연결을 해제할까요? 기록은 이 기기와 GitHub에 그대로 남습니다.", "해제"))) return;
+  CFG = null; SYNC.blocked = ""; SYNC.sha = null; SYNC.salt = null; SYNC.key = null;
+  try { localStorage.removeItem(CFG_KEY); } catch (e) { }
+  updateNote(); setSync("local");
+};
+
+/* 폰 연결 링크: 주소 뒤 #sync= 에 사용자명·저장소·토큰을 담는다(비밀번호는 넣지 않음) */
+$("#sLink").onclick = async () => {
+  if (!/^https?:$/.test(location.protocol)) {
+    return sMsg("지금은 PC 파일로 열려 있어 폰용 링크를 만들 수 없습니다. GitHub Pages 주소로 연 화면에서 눌러 주세요.", "err");
+  }
+  const code = b64e(new TextEncoder().encode(JSON.stringify({ o: CFG.owner, r: CFG.repo, t: CFG.token })))
+    .replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const link = `${location.origin}${location.pathname}#sync=${code}`;
+  try { await navigator.clipboard.writeText(link); sMsg("링크를 복사했습니다. 카톡 '나와의 채팅' 등으로 폰에 보내 열고, 연결 뒤 메시지는 지워 주세요. (비밀번호는 링크에 없습니다)", "ok"); }
+  catch (e) { sMsg("복사가 막혀 있어 아래 QR을 폰 카메라로 찍어 주세요.", "ok"); }
+  // QR 코드(인터넷 연결 시에만): 폰 카메라로 바로 열 수 있게
+  try {
+    if (!window.QRCode) await new Promise((ok, no) => { const sc = document.createElement("script"); sc.src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"; sc.onload = ok; sc.onerror = no; document.head.appendChild(sc); });
+    $("#qr").innerHTML = ""; new QRCode($("#qr"), { text: link, width: 200, height: 200, correctLevel: QRCode.CorrectLevel.L });
+  } catch (e) { }
+};
+}
+
+/* 주소에 #sync=… 가 있으면 꺼내고, 주소창에서는 바로 지운다(기록·공유 방지) */
+function readSyncLink() {
+  const m = location.hash.match(/^#sync=([A-Za-z0-9_-]+)/);
+  if (!m) return null;
+  try { history.replaceState(null, "", location.pathname + location.search); } catch (e) { }
+  try {
+    const o = JSON.parse(new TextDecoder().decode(b64d(m[1].replace(/-/g, "+").replace(/_/g, "/"))));
+    return { owner: o.o, repo: o.r, token: o.t };
+  } catch (e) { return null; }
+}
+
+/* 시작할 때 한 번: 동기화 켜져 있으면 받아오고, 이후 자동 동기화 예약 */
+function syncInit(linkCfg) {
+  wireSync();
+  updateNote();
+  if (linkCfg) openSync(linkCfg, "폰 연결 링크로 열었습니다. PC에서 정한 비밀번호만 입력하고 '연결하고 동기화'를 누르세요.");
+  if (syncOn()) syncNow(); else setSync(SYNC.blocked ? "err" : "local", "동기화 멈춤");
+  setInterval(() => { if (document.visibilityState === "visible") syncNow(); }, 30000);  // 화면을 보고 있는 동안 30초마다 받아오기
+  document.addEventListener("visibilitychange", () => syncNow());   // 앱으로 돌아올 때 받아오기 / 떠날 때 바로 올리기
+  window.addEventListener("online", () => syncNow());                // 인터넷이 다시 연결되면
+}
+
+/* 화면 안 확인창 (브라우저 confirm 대신) */
+function ask(msg, yes = "확인") {
+  return new Promise(res => {
+    $("#dlgMsg").textContent = msg; $("#dlgYes").textContent = yes; $("#dlg").hidden = false;
+    const done = v => { $("#dlg").hidden = true; $("#dlgYes").onclick = $("#dlgNo").onclick = null; res(v); };
+    $("#dlgYes").onclick = () => done(true); $("#dlgNo").onclick = () => done(false);
+  });
+}
+
+/* ───────── 작은 도우미 ───────── */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const md2label = md => { const [m, d] = md.split("/"); return `${m}월 ${d}일`; };
+function hasContent(prefix) { return Object.keys(S).some(k => k.startsWith(prefix + ".")); }
+function dayStatus(md) {                 // 목차·일정표용 진행 상태
+  const st = S[`d_${md}.status`];
+  if (st) return st;                     // done / part / rest
+  return hasContent(`d_${md}`) ? "wip" : "";
+}
+const STATUS_LABEL = { done: "했다", part: "일부", rest: "쉬었다", wip: "작성 중", "": "" };
+function todayISO() {                    // 이 컴퓨터 시계 기준 오늘 날짜
+  const t = new Date(); t.setMinutes(t.getMinutes() - t.getTimezoneOffset());
+  return t.toISOString().slice(0, 10);
+}
+function scoreTotal(w) {                 // 점수표 총점(입력된 항목만 합산) + 입력 개수
+  let sum = 0, n = 0;
+  DATA.scoreItems.forEach((_, i) => { const v = S[`score_${w}.${i}`]; if (v !== undefined) { sum += +v; n++; } });
+  return { sum, n };
+}
+
+/* ════════════════════════════════════════════════════════════
+   양식 부품 그리기: 각 부품은 HTML 문자열을 돌려주고,
+   입력칸에는 data-k(저장 키)를 달아 둔다. 값은 그린 뒤 fill()에서 채운다.
+   ════════════════════════════════════════════════════════════ */
+function field(f, ns) {
+  const k = id => `${ns}.${id}`;
+  switch (f.t) {
+    case "note":
+      return f.title ? `<div class="note band ${f.tone}"><div class="note-t">${f.title}</div><div class="note-b">${f.html}</div></div>`
+                     : `<div class="note ${f.tone}">${f.html}</div>`;
+    case "h":
+      return `<h3>${esc(f.text)}</h3>`;
+    case "html":
+      return f.html;
+    case "text":
+      return `<div class="f">${f.label ? `<label class="l">${esc(f.label)}</label>` : ""}${f.hint ? `<div class="hint">${esc(f.hint)}</div>` : ""}
+              <textarea data-k="${k(f.id)}" rows="${f.rows}"></textarea></div>`;
+    case "list": {
+      let h = f.hint ? `<div class="hint">${esc(f.hint)}</div>` : "";
+      for (let i = 1; i <= f.n; i++)
+        h += `<div class="li"><span class="num">${i}</span><div>${f.prefix ? `<small>${esc(f.prefix)}</small>` : ""}
+              <textarea data-k="${k(f.id)}.${i}" rows="${f.rows}"></textarea></div></div>`;
+      return `<div class="f">${h}</div>`;
+    }
+    case "checks":
+      return `<div class="f">${f.label ? `<div class="fl">${esc(f.label)}</div>` : ""}<div class="checks">${
+        f.items.map((it, i) => `<label class="ck"><input type="checkbox" data-k="${k(f.id)}.${i}">${esc(it)}</label>`).join("")}</div></div>`;
+    case "table": {                      // 행 라벨이 하나라도 있으면 첫 열을 라벨 칸으로 사용
+      const labeled = f.rows.some(r => r);
+      const cols = f.headers.length;
+      const tmpl = labeled ? `minmax(110px,.6fr) repeat(${cols - 1},1fr)` : `repeat(${cols},1fr)`;
+      let h = `<div class="gt-r" style="grid-template-columns:${tmpl}">${f.headers.map(x => `<div class="gt-h">${esc(x)}</div>`).join("")}</div>`;
+      f.rows.forEach((r, ri) => {
+        h += `<div class="gt-r" style="grid-template-columns:${tmpl}">`;
+        for (let c = 0; c < cols; c++) {
+          if (c === 0 && labeled) h += `<div class="gt-l">${esc(r)}</div>`;
+          else h += `<div class="gt-c"><textarea data-k="${k(f.id)}.${ri}.${c}" rows="2"></textarea></div>`;
+        }
+        h += `</div>`;
+      });
+      return `<div class="gt">${h}</div>`;
+    }
+    case "fact":
+    case "factex": {
+      const keys = [["사실", "카메라에 찍힐 수 있는 일"], ["해석", "내 마음이 붙인 의미"],
+                    ["과거의 영향", "떠오른 과거의 경험"], ["현재의 대응", "지금의 내가 할 수 있는 것"]];
+      const rows = keys.map(([a, b], i) => `<div class="fr"><div class="fk"><b>${a}</b><small>${b}</small></div><div class="fv">${
+        f.t === "factex" ? `<div class="ex">${esc(f.vals[i])}</div>` : `<textarea data-k="${k(f.id)}.${i}" rows="2"></textarea>`}</div></div>`).join("");
+      return `<div class="fcard">${f.title ? `<div class="ft">${esc(f.title)}</div>` : ""}${rows}</div>`;
+    }
+    case "classify":
+      return f.cats.map((c, i) => `<div class="cl">
+          <label class="ckx"><input type="checkbox" data-k="${k(f.id)}.${i}.on">${esc(c)}</label>
+          <div><small>사건의 이름 (짧게)</small><textarea data-k="${k(f.id)}.${i}.name" rows="1"></textarea></div>
+          <div><small>지금 남아 있는 감정</small><textarea data-k="${k(f.id)}.${i}.emo" rows="1"></textarea></div>
+          <div><small>지금의 무게</small><div class="dots">${[1, 2, 3, 4, 5].map(n =>
+            `<label title="${n}"><input type="radio" name="${k(f.id)}.${i}.w" data-k="${k(f.id)}.${i}.w" value="${n}"><span></span></label>`).join("")}</div></div>
+        </div>`).join("");
+    case "steps":
+      return `<div class="steps">${f.items.map((s, i) => `<div class="step"><b>${i + 1}</b>${esc(s)}</div>`).join("")}</div>`;
+    case "timer":
+      return `<div class="timer"><span class="clock" id="clock">${f.min}:00</span>
+              <button id="tStart" data-min="${f.min}">10분 시작</button><button class="btn ghost" id="tStop">멈춤</button>
+              <span class="msg" id="tMsg"></span></div>`;
+    case "scorelink": {
+      const t = scoreTotal(f.label);
+      return `<div class="note lav">□ 회복 점수표(${esc(f.label)}) 작성하기 → <a class="go" data-go="score_${f.label}">점수표 열기</a>
+              ${t.n ? ` · 현재 ${t.sum}/30 (${t.n}/6 항목)` : ""}</div>`;
+    }
+    case "letter":
+      return `<div class="letter">${f.open ? `<div class="open">${esc(f.open)}</div>` : ""}<textarea data-k="${k(f.id)}" rows="${f.rows}"></textarea></div>`;
+    case "acts": {
+      let h = "";
+      for (let i = 1; i <= f.n; i++)
+        h += `<div class="act"><span class="num">${i}</span><input type="text" data-k="${k(f.id)}.${i}.t">
+              <label class="ck"><input type="checkbox" data-k="${k(f.id)}.${i}.a">혼자 가능</label>
+              <label class="ck"><input type="checkbox" data-k="${k(f.id)}.${i}.b">10분 안에</label></div>`;
+      return h;
+    }
+    case "slots":
+      return `<div class="slots">${f.items.map((s, i) => `<div><b>${esc(s)}</b><textarea data-k="${k(f.id)}.${i}" rows="6"></textarea></div>`).join("")}</div>`;
+    case "areas":
+      return `<table class="tbl"><tr><th>영역</th><th>지금 마음에서<br>차지하는 비중</th><th>내가 원하는<br>비중</th><th>이번 주 이 영역을 위한 작은 행동 하나</th><th>✓</th></tr>${
+        f.areas.map((a, i) => `<tr><td><b>${esc(a)}</b></td>
+          <td><input type="number" min="0" max="100" data-k="${k(f.id)}.${i}.now" style="width:70px"> %</td>
+          <td><input type="number" min="0" max="100" data-k="${k(f.id)}.${i}.want" style="width:70px"> %</td>
+          <td><input type="text" data-k="${k(f.id)}.${i}.act"></td>
+          <td><input type="checkbox" data-k="${k(f.id)}.${i}.done" style="accent-color:var(--lav-d);width:17px;height:17px"></td></tr>`).join("")}</table>`;
+    case "grid100": {
+      const g = S[k(f.id)] || "0".repeat(100);
+      const counts = [0, 0, 0, 0, 0, 0, 0]; [...g].forEach(c => counts[+c]++);
+      return `<div class="g100" data-grid="${k(f.id)}">${[...g].map((c, i) => `<div data-i="${i}" class="${c !== "0" ? "a" + c : ""}"></div>`).join("")}</div>
+              <div class="legend">${f.areas.map((a, i) => `<span><i class="a${i + 1}"></i>${esc(a)} ${counts[i + 1]}칸</span>`).join("")}
+              <span><i style="border:1px solid var(--gray-l)"></i>빈칸 ${counts[0]}</span></div>`;
+    }
+  }
+  return "";
+}
+
+/* 저장된 값을 화면의 입력칸에 채워 넣기 */
+function fill(root, skip = null) {
+  root.querySelectorAll("[data-k]").forEach(el => {
+    if (el === skip) return;
+    const v = S[el.dataset.k];
+    if (el.type === "checkbox") el.checked = !!v;
+    else if (el.type === "radio") el.checked = (v !== undefined && String(v) === el.value);
+    else el.value = v ?? "";
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   오늘의 회복 기록(매일 반복 양식) — 종이판과 같은 4문항
+   ════════════════════════════════════════════════════════════ */
+function journal(ns, dayInfo) {
+  const restHint = dayInfo && (dayInfo.kind === "rest" || dayInfo.kind === "optional")
+    ? `<div class="hint">휴식일에는 한두 줄이면 충분합니다.</div>` : "";
+  const status = dayInfo ? `<div class="f"><div class="fl"><span>오늘의 과제 체크</span><span class="qen">Status</span></div><div class="checks">${
+      [["done", "했다"], ["part", "일부"], ["rest", "쉬었다"]].map(([v, t]) =>
+        `<label class="ck"><input type="radio" name="${dayInfo.key}.status" data-k="${dayInfo.key}.status" value="${v}">${t}</label>`).join("")}</div></div>` : "";
+  const emo = S[`${ns}.emo`] || [];
+  return `${status}${restHint}
+    <div class="f"><label class="l"><span class="qt"><span class="qn">1</span>오늘 어떤 감정을 느꼈나?</span><span class="qen">Feelings</span></label>
+      <div class="chips" data-chips="${ns}.emo">${DATA.emotions.map(e => `<button class="chip ${emo.includes(e) ? "on" : ""}" data-v="${e}">${e}</button>`).join("")}</div>
+      <textarea data-k="${ns}.q1" rows="3"></textarea></div>
+    <div class="f"><label class="l"><span class="qt"><span class="qn">2</span>그 감정이 생긴 실제 사건은 무엇이었나?</span><span class="qen">What Happened</span></label><textarea data-k="${ns}.q2" rows="4"></textarea></div>
+    <div class="f"><label class="l"><span class="qt"><span class="qn">3</span>나는 그 사건을 어떻게 해석했나? 혹시 과거의 경험을 현재에 겹쳐 보고 있지는 않았나?</span><span class="qen">Interpretation</span></label>
+      <div class="checks" style="margin-bottom:6px">${["과거가 겹쳐 보였다", "현재의 일로 보였다", "잘 모르겠다"].map((t, i) =>
+        `<label class="ck"><input type="checkbox" data-k="${ns}.q3c.${i}">${t}</label>`).join("")}</div>
+      <textarea data-k="${ns}.q3" rows="5"></textarea></div>
+    <div class="f"><label class="l"><span class="qt"><span class="qn">4</span>지금의 내가 나에게 해줄 수 있는 말이나 행동은 무엇인가?</span><span class="qen">Kind Words</span></label><textarea data-k="${ns}.q4" rows="4"></textarea></div>
+    <div class="quote">${esc(DATA.quote)}</div>`;
+}
+
+/* ════════════════════════════════════════════════════════════
+   페이지별 화면 그리기
+   ════════════════════════════════════════════════════════════ */
+/* 페이지 머리 오른쪽 세로 잎 장식 */
+const TWIG = `<svg width="16" height="28" viewBox="0 0 16 32" aria-hidden="true"><path d="M8 2 Q9 16 8 31" fill="none" style="stroke:var(--lav-d)" stroke-width=".9"/>${
+  [0,1,2,3,4].map(i => { const x = 8 + (i % 2 ? 4 : -4), y = 6 + i * 5; return `<ellipse cx="${x}" cy="${y}" rx="3.6" ry="1.5" fill="none" style="stroke:var(--lav-d)" stroke-width=".8" transform="rotate(${i % 2 ? -40 : 40} ${x} ${y})"/>`; }).join("")}</svg>`;
+function phead(en, ko, right = "") {
+  return `<div class="ph"><div><div class="ph-en">${en}</div><div class="ph-ko">${ko}</div></div><div class="ph-r">${right}${TWIG}</div></div>`;
+}
+const meta = items => `<div class="meta">${items.map(([l, v]) => `<span class="mi"><b>${l}</b><u>${v}</u></span>`).join("")}</div>`;
+const paperTag = p => p.paper ? `<span class="paper">종이 ${p.paper}쪽${p.paperj ? ` · 기록 ${p.paperj}쪽` : ""}</span>` : "";
+function head(p, kicker, title, sub = "") {
+  return phead(esc(p.en || kicker), title, paperTag(p)) + (sub ? `<p class="sub">${sub}</p>` : "");
+}
+const fields = (p) => p.fields.map(f => field(f, p.key)).join("");
+
+function viewDay(p) {
+  const week = DATA.weeks.find(w => w.label === p.group);
+  const [mm, dd] = p.md.split("/");
+  const badgeH = `<span class="badge k-${p.kind}">${DATA.kinds[p.kind]}${p.mins && !["휴식", "선택"].includes(p.mins) ? " · " + p.mins : ""}</span>`;
+  return phead("Recovery Task", `오늘의 과제 · DAY ${String(p.no).padStart(2, "0")} / 41`, badgeH + paperTag(p))
+    + meta([["Date", `2026. ${mm}. ${dd}`], ["Day", `${p.wd}요일`], ["Week", `${week.label} · ${esc(week.theme)}`]])
+    + `<div class="task"><div class="tk-h"><span>오늘의 과제</span><i>Today’s Task</i></div><div class="tk-b">${esc(p.task)}</div></div>
+    ${fields(p)}
+    <div class="jsec">${phead("Recovery Journal", "오늘의 회복 기록", `<span class="paper">종이 ${p.paperj}쪽</span>`)}</div>
+    ${journal(`${p.key}.j`, p)}`;
+}
+
+/* 준비일(DAY 0) 화면: 준비 체크리스트 + 회복 기록(4문항, 선택) */
+function viewPrep(p) {
+  const [mm, dd] = p.md.split("/");
+  return phead("Day Zero", "준비일 · DAY 00 / 41", `<span class="badge k-optional">준비 · 15분</span>`)
+    + meta([["Date", `2026. ${mm}. ${dd}`], ["Day", `${p.wd}요일`], ["Next", "내일부터 DAY 01"]])
+    + `<div class="task"><div class="tk-h"><span>오늘 할 일</span><i>Getting Ready</i></div><div class="tk-b">${esc(p.task)}</div></div>
+    ${fields(p)}
+    <div class="jsec">${phead("Recovery Journal", "오늘의 회복 기록 (선택)")}</div>
+    <div class="hint">준비일에는 한두 줄이면 충분합니다. 쓰고 싶지 않으면 건너뛰어도 됩니다.</div>
+    ${journal(`${p.key}.j`, null)}`;
+}
+
+function viewWeek(p) {
+  const days = PAGES.filter(x => x.special === "day" && x.group === p.group);
+  return phead(esc(p.en), `${p.group} · ${p.range}`, paperTag(p))
+    + `<div class="goalbox"><div class="tk-h"><span>이번 주 주제</span><i>Theme &amp; Goal</i></div>
+       <div class="gt1">${esc(p.theme)}</div><div class="gt2"><b>목표</b>${esc(p.goal)}</div></div>
+    ${p.extra ? `<div class="note ${p.week === "w4" ? "warn" : "lav"}">${p.extra}</div>` : ""}
+    <table class="tbl"><tr><th>날짜</th><th>구분</th><th>과제</th><th>상태</th></tr>${days.map(d =>
+      `<tr><td>${d.md} (${d.wd})</td><td><span class="badge k-${d.kind}">${DATA.kinds[d.kind]}</span></td>
+       <td><a class="go" data-go="${d.key}">${esc(d.task)}</a></td><td>${STATUS_LABEL[dayStatus(d.md)]}</td></tr>`).join("")}</table>
+    ${p.more && p.more.length ? `<div class="note cream"><b>이번 주 더 알아보기 (선택)</b> — ${p.more.map(m => `<a class="go" data-go="${m.key}">${esc(m.title)}</a>`).join(" · ")}
+      <br><span class="small">과제와 별개로, 읽고 싶을 때 한두 쪽씩 펼쳐 보세요.</span></div>` : ""}
+    <div class="f"><label class="l">이번 주를 시작하며 나에게 한 마디</label><textarea data-k="${p.key}.msg" rows="3"></textarea></div>`;
+}
+
+function viewSchedule(p) {
+  let last = "", rows = "";
+  const prep = PAGES.find(x => x.special === "prep");
+  if (prep) rows += `<tr><td colspan="5" style="background:var(--cream);font-weight:500">준비일</td></tr>
+    <tr><td>${prep.md}</td><td>${prep.wd}</td><td><span class="badge k-optional">준비</span></td>
+    <td><a class="go" data-go="${prep.key}">${esc(prep.task)}</a></td><td></td></tr>`;
+  PAGES.filter(x => x.special === "day").forEach(d => {
+    if (d.group !== last) {
+      const w = DATA.weeks.find(x => x.label === d.group);
+      rows += `<tr><td colspan="5" style="background:var(--lav);color:var(--lav-d);font-weight:500">${w.label} · ${esc(w.theme)}</td></tr>`;
+      last = d.group;
+    }
+    const st = dayStatus(d.md);
+    rows += `<tr><td>${d.md}</td><td>${d.wd}</td><td><span class="badge k-${d.kind}">${DATA.kinds[d.kind]}</span></td>
+      <td><a class="go" data-go="${d.key}">${esc(d.task)}</a></td><td><span class="dot ${st}" style="display:inline-block"></span> ${STATUS_LABEL[st]}</td></tr>`;
+  });
+  return head(p, "41-DAY OVERVIEW", "41일 전체 일정표", "날짜를 누르면 그날 화면으로 이동합니다. 상태는 각 날짜의 '오늘의 과제' 체크에서 자동으로 표시됩니다.") +
+    `<table class="tbl"><tr><th>날짜</th><th>요일</th><th>구분</th><th>과제</th><th>상태</th></tr>${rows}</table>`;
+}
+
+function viewExtra(p) {                   // 여분 회복 기록: 날짜를 직접 정해 여러 장 추가
+  const list = S["extra.list"] || [];
+  return head(p, "SPARE JOURNAL", "여분 회복 기록", "41일 일정과 별개로 더 쓰고 싶은 날 사용합니다.") +
+    list.map((id, idx) => `<div class="section-t"><b>여분 기록 ${idx + 1}</b>
+        <input type="date" data-k="extra.${id}.date" style="width:auto">
+        <button class="btn ghost" data-del="${id}">삭제</button></div>${journal(`extra.${id}`, null)}`).join("") +
+    `<div><button class="btn" id="addExtra">+ 새 기록 추가</button></div>`;
+}
+
+function viewScores(p) {
+  return head(p, "WEEKLY CHECK-IN", "매주 회복 점수표", "매주 일요일(마지막 회차는 12월 12일)에 기록합니다.") +
+    `<div class="note lav"><div class="note-t">먼저 읽어 주세요</div>이 점수표는 <b>임상적 평가가 아니라 자기 관찰을 위한 도구</b>입니다.
+      점수가 낮은 주는 실패한 주가 아니라, 어디가 아직 어려운지를 알려 주는 정보입니다. 점수가 오르내리는 것은 회복 과정에서 자연스러운 일입니다.</div>
+    <h3>점수 기준</h3>
+    <table class="tbl"><tr><th>0점</th><th>3점</th><th>5점</th><th>1·2·4점</th></tr>
+      <tr><td>전혀 하지 못했다</td><td>절반 정도 해냈다</td><td>비교적 안정적으로 해냈다</td><td>그 사이 — 가까운 쪽에 표시</td></tr></table>
+    <h3>평가 항목 (6개 × 5점 = 30점)</h3><ol>${DATA.scoreItems.map(s => `<li>${esc(s)}</li>`).join("")}</ol>
+    <h3>회차</h3><table class="tbl"><tr><th>회차</th><th>날짜</th><th>총점</th></tr>${DATA.scoreWeeks.map(([w, md]) => {
+      const t = scoreTotal(w);
+      return `<tr><td><a class="go" data-go="score_${w}">${w}</a></td><td>${md}</td><td>${t.n ? `${t.sum} / 30${t.n < 6 ? ` (${t.n}/6 항목)` : ""}` : "—"}</td></tr>`;
+    }).join("")}</table>
+    <p><a class="go" data-go="trend">→ 점수 추이 그래프 보기</a></p>`;
+}
+
+function viewScore(p) {
+  const ns = `score_${p.label}`;
+  const t = scoreTotal(p.label);
+  return phead("Weekly Check-in", `${p.label} 회복 점수표`, paperTag(p))
+    + meta([["Date", md2label(p.md)], ["Scale", "0 전혀 못함 · 3 절반 · 5 비교적 안정적"]]) + `
+    <div>${DATA.scoreItems.map((s, i) => `<div class="srow"><span class="n">${i + 1}</span><span>${esc(s)}</span>
+        <div class="radios">${[0, 1, 2, 3, 4, 5].map(v => `<label><input type="radio" name="${ns}.${i}" data-k="${ns}.${i}" value="${v}"><span>${v}</span></label>`).join("")}</div></div>`).join("")}</div>
+    <div class="total">총점 <b id="tot">${t.sum}</b> / 30 <span class="small" id="totn">${t.n < 6 ? `(${t.n}/6 항목 입력)` : ""}</span></div>
+    <p class="small">임상적 평가가 아닌 자기 관찰 도구입니다. 낮은 점수는 실패가 아니라 '아직 어려운 곳'을 알려 주는 정보입니다.</p>
+    <div class="f"><label class="l">이번 주 가장 높은 항목 — 무엇이 도왔나?</label><textarea data-k="${ns}.hi" rows="3"></textarea></div>
+    <div class="f"><label class="l">이번 주 가장 낮은 항목 — 무엇이 어려웠나? (나를 탓하지 않고)</label><textarea data-k="${ns}.lo" rows="3"></textarea></div>
+    <div class="f"><label class="l">다음 회차까지 조금만 바꿔 볼 것 하나</label><textarea data-k="${ns}.next" rows="2"></textarea></div>`;
+}
+
+function viewTrend(p) {
+  const W = DATA.scoreWeeks;
+  const cell = (w, i) => { const v = S[`score_${w}.${i}`]; return v === undefined ? "" : v; };
+  const table = `<table class="tbl"><tr><th>항목 (0~5점)</th>${W.map(([w, md]) => `<th style="text-align:center">${w}<br><small>${md}</small></th>`).join("")}</tr>
+    ${DATA.scoreItems.map((s, i) => `<tr><td>${i + 1}. ${esc(s)}</td>${W.map(([w]) => `<td style="text-align:center">${cell(w, i)}</td>`).join("")}</tr>`).join("")}
+    <tr style="background:var(--cream)"><td><b>총점 / 30</b></td>${W.map(([w]) => { const t = scoreTotal(w); return `<td style="text-align:center;background:var(--cream)"><b>${t.n ? t.sum : ""}</b></td>`; }).join("")}</tr></table>`;
+  // 총점 꺾은선 그래프 (SVG). 입력된 회차만 점으로 이어 그린다
+  const w = 700, h = 260, L = 40, R = 20, T = 14, B = 34, iw = w - L - R, ih = h - T - B;
+  const x = i => L + iw * (i + .5) / W.length, y = v => T + ih * (1 - v / 30);
+  let svg = `<svg viewBox="0 0 ${w} ${h}" width="100%" role="img" aria-label="총점 추이">`;
+  for (let v = 0; v <= 30; v += 5) svg += `<line x1="${L}" x2="${w - R}" y1="${y(v)}" y2="${y(v)}" style="stroke:var(--gray-l)"/><text x="${L - 8}" y="${y(v) + 4}" font-size="11" text-anchor="end" style="fill:var(--gray)">${v}</text>`;
+  W.forEach(([wl], i) => svg += `<text x="${x(i)}" y="${h - 10}" font-size="12" text-anchor="middle" style="fill:var(--gray)">${wl}</text>`);
+  const pts = W.map(([wl], i) => { const t = scoreTotal(wl); return t.n ? [x(i), y(t.sum), t.sum] : null; }).filter(Boolean);
+  if (pts.length > 1) svg += `<polyline points="${pts.map(p => p[0] + "," + p[1]).join(" ")}" fill="none" style="stroke:var(--lav-d)" stroke-width="2.5"/>`;
+  pts.forEach(p => svg += `<circle cx="${p[0]}" cy="${p[1]}" r="5" style="fill:var(--lav-d)"/><text x="${p[0]}" y="${p[1] - 10}" font-size="12" text-anchor="middle" style="fill:var(--ink)">${p[2]}</text>`);
+  svg += `</svg>`;
+  return head(p, "TREND", "회복 점수 추이", "각 회차 점수표에 입력한 값이 자동으로 모입니다.") + table +
+    `<h3>총점 변화</h3><div class="chart">${svg}</div>
+     <div class="f"><label class="l">6주를 돌아보며 — 점수보다 중요했던 변화</label><textarea data-k="trend.note" rows="3"></textarea></div>`;
+}
+
+function viewHome(p) {
+  const today = todayISO();
+  const days = PAGES.filter(x => x.special === "day");
+  const cur = days.find(d => d.iso === today);
+  const doneN = days.filter(d => ["done", "part", "rest"].includes(S[`d_${d.md}.status`])).length;
+  let hero;
+  const prep = PAGES.find(x => x.special === "prep");
+  if (prep && today === prep.iso) hero = `<div class="kicker">오늘 · 준비일 (DAY 0)</div><div class="big">${md2label(prep.md)} ${prep.wd}요일 — 내일부터 41일이 시작됩니다. 오늘은 가볍게 준비만 해요.</div>
+                   <button class="btn" data-go="${prep.key}">준비일 페이지 열기</button> <button class="btn ghost" data-go="guide">사용 안내</button>`;
+  else if (cur) hero = `<div class="kicker">오늘 · DAY ${String(cur.no).padStart(2, "0")} / 41</div><div class="big">${md2label(cur.md)} ${cur.wd}요일 — ${esc(cur.task)}</div>
+                   <button class="btn" data-go="${cur.key}">오늘의 과제와 기록 열기</button>`;
+  else if (today < days[0].iso) {           // 준비일보다도 전
+    const first = prep || days[0];
+    const diff = Math.round((new Date(first.iso) - new Date(today)) / 864e5);
+    hero = `<div class="kicker">시작까지 ${diff}일</div><div class="big">${md2label(first.md)} ${first.wd}요일 준비일부터 시작합니다.</div>
+            <button class="btn" data-go="guide">사용 안내 먼저 읽기</button> <button class="btn ghost" data-go="${first.key}">준비일 미리 보기</button>`;
+  } else hero = `<div class="kicker">41일을 지나왔습니다</div><div class="big">기록을 다시 읽고, 앞으로의 방향을 이어가 보세요.</div>
+                 <button class="btn" data-go="final">최종 회고 · 편지 열기</button>`;
+  return phead("41 Days of Care", "41일, 나를 돌보는 기록 · 2026. 11. 1 — 12. 12")
+    + `<p class="sub">과거와 현재를 구분하고 나의 일상을 지켜 나가는 회복 워크북</p>
+    <div class="hero">${hero}</div>
+    <div><div class="fl">진행 (과제 체크한 날 ${doneN} / 41)</div><div class="prog"><i style="width:${doneN / 41 * 100}%"></i></div></div>
+    <h3>힘들 때 바로 열기</h3>
+    <div class="quick">
+      <a data-go="x_stop"><b>잠시 멈추기</b><small>감정이 너무 커질 때</small></a>
+      <a data-go="safety"><b>안전 계획</b><small>감정이 격해졌을 때 5단계</small></a>
+      <a data-go="anxiety"><b>불안할 때 문장</b><small>최악을 사실처럼 믿기 전에</small></a>
+      <a data-go="guide"><b>도움 연락처</b><small>1577-0199 · 1366 · 해바라기센터</small></a>
+    </div>
+    <div class="quote">${esc(DATA.quote)}</div>`;
+}
+
+/* 페이지 키 → 화면 HTML */
+function renderPage(p) {
+  switch (p.special) {
+    case "home": return viewHome(p);
+    case "day": return viewDay(p);
+    case "prep": return viewPrep(p);
+    case "week": return viewWeek(p);
+    case "schedule": return viewSchedule(p);
+    case "extra": return viewExtra(p);
+    case "scores": return viewScores(p);
+    case "score": return viewScore(p);
+    case "trend": return viewTrend(p);
+  }
+  if (p.extra) {                          // 더 알아보기·부록: 주차 표시 + 본문
+    const wk = DATA.weeks.find(w => w.label === p.group);
+    return head(p, esc(p.kicker), esc(p.title), wk ? `${wk.label} · ${esc(wk.theme)}` : "모든 질문은 건너뛰어도 됩니다.") + fields(p);
+  }
+  const kick = { guide: "HOW TO USE", principles: "SIX PRINCIPLES", fact: "FACT & INTERPRETATION", counsel: "BEFORE NOVEMBER 11",
+                 anxiety: "WORDS FOR ANXIOUS MOMENTS", areas: "AREAS OF MY LIFE", safety: "SAFETY PLAN", final: "DECEMBER 12" }[p.key] || "";
+  const sub = { guide: "완벽하게 해내는 것보다, 놓친 날에도 다시 돌아오는 것이 이 워크북의 목표입니다.",
+                principles: "흔들리는 날, 과제보다 먼저 이 페이지를 펼쳐 보세요.",
+                fact: "같은 일도 어떤 의미를 붙이느냐에 따라 전혀 다른 감정이 됩니다.",
+                counsel: "상담은 더 안전하고 효율적으로 회복하기 위한 방법입니다.",
+                anxiety: "휴대폰 메모에 옮겨 두면 필요할 때 바로 꺼낼 수 있습니다.",
+                areas: "관계는 내 삶의 소중한 한 부분이지만, 전부는 아닙니다.",
+                safety: "감정이 가장 클 때 생각하지 않아도 따라 할 수 있도록, 미리 정해 두는 행동 순서입니다.",
+                final: "완전히 회복해야 하는 마감일이 아니라, 변화를 점검하고 방향을 정하는 날입니다." }[p.key] || "";
+  return head(p, kick, p.title, sub) + fields(p);
+}
+
+/* ════════════════════════════════════════════════════════════
+   목차(왼쪽) 그리기 — 그룹별 접기, 날짜는 진행 상태 점 표시
+   ════════════════════════════════════════════════════════════ */
+let current = "home";
+function renderNav(rebuild = true) {
+  const groups = [];
+  PAGES.forEach(p => { let g = groups.find(x => x.name === p.group); if (!g) groups.push(g = { name: p.group, items: [] }); g.items.push(p); });
+  const curGroup = BY_KEY[current]?.group;
+  $("#nav").innerHTML = groups.map(g => `<details ${g.name === curGroup || g.name === "시작" ? "open" : ""}><summary>${g.name}</summary>${
+    g.items.map(p => {
+      const label = p.special === "day" ? `${p.md} ${p.wd} · ${p.task}` : p.special === "prep" ? `${p.md} ${p.wd} · 준비일` : p.title;
+      const dot = p.special === "day" ? `<span class="dot ${dayStatus(p.md)}"></span>` : "";
+      const tag = p.extra && p.group !== "부록" ? `<span class="tag">선택</span>` : "";
+      return `<a class="item ${p.key === current ? "on" : ""}" data-go="${p.key}" title="${esc(label)}">${dot}<span class="t">${esc(label)}</span>${tag}</a>`;
+    }).join("")}</details>`).join("");
+}
+
+/* 이전/다음 버튼(날짜 화면에서는 날짜끼리, 그 외에는 목차 순서) */
+function pager(p) {
+  const i = PAGES.indexOf(p);
+  const prev = PAGES[i - 1], next = PAGES[i + 1];
+  const name = x => x.special === "day" || x.special === "prep" ? `${x.md} (${x.wd})` : x.title;
+  return `<div class="pager">${prev ? `<button data-go="${prev.key}">← ${esc(name(prev))}</button>` : "<span></span>"}
+          ${next ? `<button data-go="${next.key}">${esc(name(next))} →</button>` : ""}</div>`;
+}
+
+/* 주소창(#)용 이름: 영문·숫자·하이픈만 허용되므로 페이지마다 짧은 이름을 만든다 */
+const SLUG = {}, SLUG2KEY = {};
+PAGES.forEach((p, i) => {
+  let s = p.key.replace(/[^A-Za-z0-9]+/g, "-").replace(/^-+|-+$/g, "").toLowerCase();
+  if (!s || /[^\x00-\x7f]/.test(p.key) || SLUG2KEY[s]) s = `p${i}`;
+  SLUG[p.key] = s; SLUG2KEY[s] = p.key;
+});
+
+/* 다른 기기에서 바뀐 내용 반영: 입력 중인 칸은 건드리지 않음 */
+function refreshView() {
+  const a = document.activeElement, v = $("#view");
+  if (a && a.dataset && a.dataset.k && v.contains(a)) fill(v, a);
+  else { const y = window.scrollY; show(current, false, true); window.scrollTo(0, y); }
+  renderNav(false);
+}
+
+/* 화면 이동 */
+let tick = null;
+function show(key, push = true, keep = false) {
+  if (!BY_KEY[key]) key = "home";
+  current = key;
+  clearInterval(tick);                    // 다른 화면으로 가면 타이머 정지
+  const p = BY_KEY[key];
+  const v = $("#view");
+  v.innerHTML = renderPage(p) + pager(p);
+  fill(v);
+  renderNav();
+  if (push) { try { history.replaceState(null, "", "#" + SLUG[key]); } catch (e) { } }
+  if (!keep) window.scrollTo(0, 0);
+  $("#side").classList.remove("open");
+}
+
+/* ════════════════════════════════════════════════════════════
+   이벤트: 입력 저장 / 링크 이동 / 감정 칩 / 100칸 / 타이머 / 백업
+   ════════════════════════════════════════════════════════════ */
+document.addEventListener("input", e => {
+  const el = e.target; if (!el.dataset.k) return;
+  if (el.type === "checkbox") setVal(el.dataset.k, el.checked);
+  else if (el.type === "radio") { if (el.checked) setVal(el.dataset.k, el.value); }
+  else setVal(el.dataset.k, el.value);
+  if (current.startsWith("score_") && el.type === "radio") {   // 점수표 총점 즉시 갱신
+    const t = scoreTotal(BY_KEY[current].label);
+    $("#tot").textContent = t.sum; $("#totn").textContent = t.n < 6 ? `(${t.n}/6 항목 입력)` : "";
+  }
+});
+document.addEventListener("change", e => {   // 일부 브라우저는 라디오/체크를 change로만 알림
+  const el = e.target; if (!el.dataset.k || !["checkbox", "radio"].includes(el.type)) return;
+  el.dispatchEvent(new Event("input", { bubbles: true }));
+});
+document.addEventListener("click", e => {
+  const g = e.target.closest("[data-go]");
+  if (g) { e.preventDefault(); show(g.dataset.go); return; }
+
+  const chip = e.target.closest(".chip");        // 감정 단어 칩 켜기/끄기
+  if (chip) {
+    const k = chip.parentElement.dataset.chips;
+    const arr = new Set(S[k] || []);
+    arr.has(chip.dataset.v) ? arr.delete(chip.dataset.v) : arr.add(chip.dataset.v);
+    chip.classList.toggle("on");
+    setVal(k, arr.size ? [...arr] : null);
+    return;
+  }
+  const cell = e.target.closest("[data-grid] > div");   // 100칸: 누를 때마다 다음 영역 색으로
+  if (cell) {
+    const k = cell.parentElement.dataset.grid;
+    const g = [...(S[k] || "0".repeat(100))];
+    g[+cell.dataset.i] = String((+g[+cell.dataset.i] + 1) % 7);
+    setVal(k, g.join("") === "0".repeat(100) ? null : g.join(""));
+    const y = window.scrollY; show(current); window.scrollTo(0, y);
+    return;
+  }
+  if (e.target.id === "tStart") {                 // 10분 행동 보류 타이머
+    let left = +e.target.dataset.min * 60;
+    clearInterval(tick); $("#tMsg").textContent = "숨을 길게 내쉬고, 불안할 때 문장을 읽어 보세요.";
+    tick = setInterval(() => {
+      left--; $("#clock").textContent = `${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`;
+      if (left <= 0) { clearInterval(tick); $("#tMsg").textContent = "10분이 지났어요. 지금도 그 행동이 필요한지 다시 물어보세요."; }
+    }, 1000);
+    return;
+  }
+  if (e.target.id === "tStop") { clearInterval(tick); $("#tMsg").textContent = "멈췄습니다."; return; }
+  if (e.target.classList.contains("copy")) {       // 상담 문장 복사
+    const b = e.target;
+    Promise.resolve(navigator.clipboard?.writeText(b.dataset.copy)).then(() => b.textContent = "복사됨 ✓")
+      .catch(() => { const r = document.createRange(); r.selectNodeContents(b.parentElement.firstChild); getSelection().removeAllRanges(); getSelection().addRange(r); b.textContent = "선택됨 — 길게 눌러 복사"; });
+    return;
+  }
+  if (e.target.id === "addExtra") {               // 여분 기록 추가
+    const id = Date.now().toString(36);
+    setVal("extra.list", [...(S["extra.list"] || []), id]); show("extra"); return;
+  }
+  if (e.target.dataset.del) {                     // 여분 기록 삭제(화면 확인창)
+    const id = e.target.dataset.del;
+    ask("이 여분 기록을 삭제할까요? 되돌릴 수 없습니다.", "삭제").then(ok => {
+      if (!ok) return;
+      Object.keys(S).forEach(k => { if (k.startsWith(`extra.${id}.`)) { delete S[k]; M[k] = Date.now(); } });   // 삭제도 시각을 남겨 동기화
+      setVal("extra.list", (S["extra.list"] || []).filter(x => x !== id));
+      show("extra");
+    });
+    return;
+  }
+});
+
+$("#todayBtn").onclick = () => show("home");
+$("#menuBtn").onclick = () => $("#side").classList.toggle("open");
+
+/* 백업 내보내기: 지금까지의 기록을 JSON 파일로 저장
+   (브라우저 다운로드 폴더에 json 파일로 저장) */
+$("#exportBtn").onclick = async () => {
+  const name = `recovery41_backup_${todayISO().replaceAll("-", "")}.json`;
+  const text = JSON.stringify({ app: "recovery41", version: 1, savedAt: new Date().toISOString(), data: S }, null, 1);
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([text], { type: "application/json" })); a.download = name;
+  a.click(); URL.revokeObjectURL(a.href);
+};
+/* 백업 불러오기: 파일 내용으로 현재 기록을 덮어씀(화면 확인창) */
+$("#importBtn").onclick = () => $("#importFile").click();
+$("#importFile").onchange = async e => {
+  const file = e.target.files[0]; e.target.value = ""; if (!file) return;
+  let obj;
+  try { obj = JSON.parse(await file.text()); if (obj.app !== "recovery41") throw 0; }
+  catch (err) { await ask("이 파일은 회복 워크북 백업 파일이 아닙니다.", "닫기"); return; }
+  if (!(await ask("백업 파일의 내용으로 지금 기록을 덮어씁니다. 계속할까요?", "덮어쓰기"))) return;
+  const now = Date.now(), before = Object.keys(S);
+  S = obj.data || {};
+  [...before, ...Object.keys(S)].forEach(k => M[k] = now);   // 덮어쓴 내용이 다른 기기보다 최신이 되도록
+  save(); show(current);
+};
+
+/* 시작: 주소의 #페이지 또는 '오늘' 화면을 그린 뒤, GitHub 동기화 시작 */
+const linkCfg = readSyncLink();            // 폰 연결 링크로 열렸으면 먼저 꺼내고 주소에서 지운다
+const fromHash = () => SLUG2KEY[location.hash.slice(1)] || "home";
+window.addEventListener("hashchange", () => { if (fromHash() !== current) show(fromHash(), false); });
+show(fromHash(), false);
+syncInit(linkCfg);
+</script>
